@@ -1,11 +1,41 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro'
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const links = [
+  {
+    title: 'Crypto API',
+    url: '/crypto',
+  },
+  {
+    title: 'Dialog Element',
+    url: '/dialog',
+  },
+]
 ---
 
 <Layout>
-	<Welcome />
+  <h1>Welcome to PalmGround</h1>
+  <p>
+    My personal playground for experimenting with new and old web technologies alike. Take a look at
+    my experiments below.
+  </p>
+  <ul>
+    {
+      links.map((link) => (
+        <li>
+          <a href={link.url}>{link.title}</a>
+        </li>
+      ))
+    }
+  </ul>
 </Layout>
+
+<style>
+  ul {
+    margin-top: 1rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+</style>

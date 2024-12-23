@@ -1,0 +1,39 @@
+---
+import Sun from '../assets/svg/sun.svg'
+import Moon from '../assets/svg/moon.svg'
+---
+
+<header>
+  <a href="/">PalmGround</a>
+  <button onclick="toggleTheme()" aria-label="Toggle dark mode">
+    <Sun width="24" height="24" fill="currentColor" />
+    <Moon width="24" height="24" fill="currentColor" />
+  </button>
+</header>
+<style>
+  header {
+    padding: 1rem 2rem;
+    font-weight: bold;
+
+    text-align: center;
+    border-bottom: 1px solid rgb(var(--color-border));
+    user-select: none;
+  }
+
+  a {
+    font-size: 1.5rem;
+  }
+</style>
+
+<script>
+  const currentTheme = localStorage.getItem('theme')
+
+  if (currentTheme) {
+    document.documentElement.dataset.theme = currentTheme
+  }
+
+  const toggleTheme = () => {
+    document.documentElement.dataset.theme =
+      document.documentElement.dataset.theme === 'light' ? 'dark' : 'light'
+  }
+</script>

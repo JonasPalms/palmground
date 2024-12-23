@@ -1,5 +1,5 @@
 {
-  "name": "purple-pulsar",
+  "name": "palmground",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -10,5 +10,9 @@
   },
   "dependencies": {
     "astro": "^5.0.9"
+  },
+  "devDependencies": {
+    "eslint": "^9.17.0",
+    "eslint-plugin-astro": "^1.3.1"
   }
 }

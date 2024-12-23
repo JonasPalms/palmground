@@ -1,0 +1,44 @@
+---
+import Github from '../assets/svg/github.svg'
+import Linkedin from '../assets/svg/linkedin.svg'
+
+const socials = [
+  {
+    name: 'github',
+    url: 'https://github.com/JonasPalms',
+    icon: Github,
+  },
+  {
+    name: 'linkedin',
+    url: 'https://linkedin.com/in/jonaspalmsorensen',
+    icon: Linkedin,
+  },
+]
+---
+
+<footer>
+  <ul>
+    {
+      socials.map((social) => (
+        <li>
+          <a href={social.url}>
+            <social.icon width="24" height="24" fill="currentColor" />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</footer>
+
+<style>
+  footer {
+    padding: 2rem;
+  }
+
+  ul {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 1.5rem;
+  }
+</style>
