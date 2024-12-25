@@ -9,6 +9,7 @@
 body {
   font-family: 'Geist Mono', sans-serif;
   color: rgb(var(--color-text-base));
+  font-size: var(--font-size-base);
 }
 
 a {
@@ -25,4 +26,9 @@ ul {
 ::selection {
   background-color: rgb(var(--color-accent));
   color: rgb(var(--color-fill));
+}
+
+:focus-visible {
+  outline: 1px solid rgb(var(--color-accent));
+  outline-offset: 0.25rem;
 }

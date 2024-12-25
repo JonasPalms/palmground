@@ -1,39 +1,30 @@
 ---
-import Sun from '../assets/svg/sun.svg'
-import Moon from '../assets/svg/moon.svg'
+import ThemeSelector from './ThemeSelector.astro'
 ---
 
 <header>
   <a href="/">PalmGround</a>
-  <button onclick="toggleTheme()" aria-label="Toggle dark mode">
-    <Sun width="24" height="24" fill="currentColor" />
-    <Moon width="24" height="24" fill="currentColor" />
-  </button>
+  <ThemeSelector />
 </header>
 <style>
   header {
-    padding: 1rem 2rem;
-    font-weight: bold;
-
+    padding-inline: var(--main-pi);
+    padding-block: var(--space-md);
+    font-weight: 600;
     text-align: center;
     border-bottom: 1px solid rgb(var(--color-border));
     user-select: none;
-  }
+    position: relative;
 
+    #theme-toggle {
+      margin-left: auto;
+    }
+  }
   a {
-    font-size: 1.5rem;
+    font-size: var(--font-size-md);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 </style>
-
-<script>
-  const currentTheme = localStorage.getItem('theme')
-
-  if (currentTheme) {
-    document.documentElement.dataset.theme = currentTheme
-  }
-
-  const toggleTheme = () => {
-    document.documentElement.dataset.theme =
-      document.documentElement.dataset.theme === 'light' ? 'dark' : 'light'
-  }
-</script>

@@ -1,0 +1,66 @@
+---
+import Sun from '../assets/svg/sun.svg'
+import Moon from '../assets/svg/moon.svg'
+---
+
+<button id="theme-toggle">
+  <Moon id="moon" fill="currentColor" />
+  <Sun id="sun" fill="currentColor" />
+</button>
+
+<style>
+  #theme-toggle {
+    --toggle-size: 1.5rem;
+    max-height: var(--toggle-size);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: inherit;
+    display: grid;
+    gap: var(--toggle-size);
+    overflow: hidden;
+    transition: color 0.2s ease-out;
+  }
+
+  #theme-toggle svg {
+    transition: transform 0.4s ease-in-out;
+    will-change: transform;
+  }
+
+  :root[data-theme='dark'] svg {
+    transform: translateY(calc(var(--toggle-size) * -2));
+  }
+
+  #theme-toggle:hover,
+  #theme-toggle:focus-visible {
+    color: rgb(var(--color-accent));
+  }
+</style>
+<script>
+  const htmlElement = document.documentElement
+  const button = document.querySelector('#theme-toggle')
+
+  function setTitle() {
+    const newTheme = htmlElement.getAttribute('data-theme')
+    const label = newTheme === 'light' ? 'Toggle dark mode' : 'Toggle light mode'
+    button.setAttribute('title', label)
+    button.setAttribute('aria-label', label)
+  }
+
+  setTitle()
+
+  const observer = new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+      console.log(mutation)
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        setTitle()
+      }
+    }
+  })
+
+  observer.observe(htmlElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
+  })
+</script>
