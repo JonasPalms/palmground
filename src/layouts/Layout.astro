@@ -12,10 +12,11 @@ import '../styles/index.css'
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>PalmPlayground</title>
+    <script is:inline src="/theme-selector.js"></script>
   </head>
   <body>
     <Header />
-    <main>
+    <main class="main-container main-padding">
       <slot />
     </main>
     <Footer />
@@ -23,7 +24,6 @@ import '../styles/index.css'
 </html>
 
 <style>
-  html,
   body {
     margin: 0;
     min-height: 100vh;
@@ -32,9 +32,11 @@ import '../styles/index.css'
     background-color: rgb(var(--color-fill));
     color: rgb(var(--color-text-base));
   }
-
   main {
-    padding: 1rem;
-    flex: 1;
+    flex-grow: 1;
+    max-width: 1200px;
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--main-pi);
   }
 </style>

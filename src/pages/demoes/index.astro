@@ -1,0 +1,40 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import BaseHeader from '@/components/BaseHeader.astro'
+
+const links = [
+  {
+    title: 'Crypto API',
+    url: 'crypto',
+  },
+  {
+    title: 'Dialog Element',
+    url: 'dialog',
+  },
+  {
+    title: '',
+  },
+]
+---
+
+<Layout>
+  <BaseHeader title="Demoes" />
+  <ul>
+    {
+      links.map((link) => (
+        <li>
+          <a href={`/demoes/${link.url}`}>{link.title}</a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
+<style>
+  ul {
+    margin-top: var(--space-lg);
+  }
+
+  li {
+    margin-bottom: var(--space-sm);
+  }
+</style>

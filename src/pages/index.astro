@@ -1,41 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro'
-
-const links = [
-  {
-    title: 'Crypto API',
-    url: '/crypto',
-  },
-  {
-    title: 'Dialog Element',
-    url: '/dialog',
-  },
-]
+import BaseHeader from '../components/BaseHeader.astro'
 ---
 
 <Layout>
-  <h1>Welcome to PalmGround</h1>
+  <BaseHeader title="PalmGround" />
+  <p>Welcome to my personal playground where I experiment with new things</p>
   <p>
-    My personal playground for experimenting with new and old web technologies alike. Take a look at
-    my experiments below.
+    Check out my demoes <a href="/demoes">here</a>
   </p>
-  <ul>
-    {
-      links.map((link) => (
-        <li>
-          <a href={link.url}>{link.title}</a>
-        </li>
-      ))
-    }
-  </ul>
 </Layout>
-
-<style>
-  ul {
-    margin-top: 1rem;
-  }
-
-  li {
-    margin-bottom: 0.5rem;
-  }
-</style>
+<style></style>
