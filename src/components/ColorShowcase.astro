@@ -1,0 +1,59 @@
+---
+// ColorShowcase.astro
+const colors = [
+  { title: 'Fill', value: '--color-fill' },
+  { title: 'Text Base', value: '--color-text-base' },
+  { title: 'Accent', value: '--color-accent' },
+  { title: 'Card Muted', value: '--color-card-muted' },
+  { title: 'Card', value: '--color-card' },
+  { title: 'Border', value: '--color-border' },
+]
+
+const themes = [
+  {
+    heading: 'Dark Theme',
+    value: 'dark',
+  },
+  {
+    heading: 'Light Theme',
+    value: 'light',
+  },
+]
+---
+
+{
+  themes.map((theme) => (
+    <h2>{theme.heading}</h2>
+    <div class="color-grid">
+      {colors.map((color) => (
+        <div>
+          <div
+            class="color-swatch"
+            data-theme={theme.value}
+            style={`background-color: rgb(var(${color.value}))`}
+          />
+          <p>{color.title}</p>
+        </div>
+      ))}
+    </div>
+  ))
+}
+
+<style>
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    color: rgb(var(--color-text-base));
+  }
+
+  .color-swatch {
+    width: 100px;
+    height: 100px;
+    padding: var(--space-sm);
+  }
+
+  h2 {
+    margin-block: var(--space-md);
+  }
+</style>

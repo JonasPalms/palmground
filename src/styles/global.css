@@ -28,7 +28,39 @@ ul {
   color: rgb(var(--color-fill));
 }
 
-:focus-visible {
-  outline: 1px solid rgb(var(--color-accent));
+:focus-visible:(not(input)) {
+  outline: 1px dotted rgb(var(--color-accent));
   outline-offset: 0.25rem;
+}
+
+h1,
+.h1 {
+  font-size: var(--font-size-xxxl);
+}
+
+h2,
+.h2 {
+  font-size: var(--font-size-xxl);
+}
+
+h3,
+.h3 {
+  font-size: var(--font-size-xl);
+}
+
+h4,
+.h4 {
+  font-size: var(--font-size-lg);
+}
+
+h5,
+.h5 {
+  font-size: var(--font-size-md);
+}
+
+.h6,
+h6,
+p,
+li {
+  font-size: var(--font-size-base);
 }

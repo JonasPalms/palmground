@@ -1,29 +1,17 @@
 ---
-import Layout from '@/layouts/Layout.astro'
-import BaseHeader from '@/components/BaseHeader.astro'
+import Layout from '@/layouts/BaseLayout.astro'
+import BaseHeading from '@/components/BaseHeading.astro'
 
-const links = [
-  {
-    title: 'Crypto API',
-    url: 'crypto',
-  },
-  {
-    title: 'Dialog Element',
-    url: 'dialog',
-  },
-  {
-    title: '',
-  },
-]
+const demoes = Object.values(import.meta.glob('@/pages/demoes/*.mdx', { eager: true }))
 ---
 
 <Layout>
-  <BaseHeader title="Demoes" />
+  <BaseHeading title="Demoes" />
   <ul>
     {
-      links.map((link) => (
+      demoes.map((demo) => (
         <li>
-          <a href={`/demoes/${link.url}`}>{link.title}</a>
+          <a href={demo.url}> {demo.frontmatter.title}</a>
         </li>
       ))
     }

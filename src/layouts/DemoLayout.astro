@@ -1,0 +1,17 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import BaseHeading from '@/components/BaseHeading.astro'
+const { frontmatter } = Astro.props
+---
+
+<BaseLayout>
+  <article>
+    <BaseHeading title={frontmatter.title} />
+    <slot />
+  </article>
+</BaseLayout>
+<style>
+  article {
+    margin-top: var(--space-lg);
+  }
+</style>

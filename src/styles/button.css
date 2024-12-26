@@ -1,0 +1,14 @@
+button {
+  background-color: rgb(var(--color-accent));
+  padding-block: var(--space-xs);
+  padding-inline: var(--space-sm);
+  border-radius: var(--space-xs);
+  border: none;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+button[data-type='secondary'] {
+  background-color: rgb(var(--color-text-base));
+  color: rgb(var(--color-fill));
+}

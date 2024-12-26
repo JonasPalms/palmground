@@ -1,13 +1,15 @@
 ---
-import Layout from '../layouts/Layout.astro'
-import BaseHeader from '../components/BaseHeader.astro'
+import Layout from '@/layouts/BaseLayout.astro'
+import BaseHeading from '@/components/BaseHeading.astro'
+import ColorShowcase from '@/components/ColorShowcase.astro'
 ---
 
 <Layout>
-  <BaseHeader title="PalmGround" />
-  <p>Welcome to my personal playground where I experiment with new things</p>
+  <BaseHeading title="Welcome to my playground" />
+  <p>This is where i experiment and learn new things about the web.</p>
   <p>
     Check out my demoes <a href="/demoes">here</a>
   </p>
+  <ColorShowcase />
 </Layout>
 <style></style>

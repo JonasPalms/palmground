@@ -3,3 +3,6 @@
 @import './colors.css';
 @import './variables.css';
 @import './utilities.css';
+@import './button.css';
+@import './input.css';
+@import './code.css';

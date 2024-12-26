@@ -1,0 +1,13 @@
+---
+import { Code } from 'astro:components'
+import '@/styles/code.css'
+
+const { code, lang = 'js' } = Astro.props
+---
+
+<Code id="code" code={code} lang={lang} theme="night-owl" />
+
+<script>
+  const codeElement = document.getElementById('code')
+  codeElement.classList.add('astro-code')
+</script>

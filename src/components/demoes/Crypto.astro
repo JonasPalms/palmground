@@ -1,0 +1,133 @@
+<label>
+  Message to be encrypted
+  <input type="text" name="encryption-input" id="encryption-input" />
+</label>
+<button id="encrypt" data-type="secondary">Encrypt</button>
+<p>Encrypted output: <span id="encryption-output"></span></p>
+<div class="hidden" id="decryption">
+  <button data-type="secondary" id="decrypt">Decrypt</button>
+  <p>Decrypted output: <span id="decryption-output"></span></p>
+  <span class="error"></span>
+</div>
+
+<script>
+  const encryptButton = document.getElementById('encrypt')
+  const decryptButton = document.getElementById('decrypt')
+  const decryptionBlock = document.getElementById('decryption')
+  const encryptionInput = document.getElementById('encryption-input')
+  const encryptionOutput = document.getElementById('encryption-output')
+  const decryptionOutput = document.getElementById('decryption-output')
+  const errorElement = document.querySelector('.error')
+
+  let decryptionKey = null
+
+  encryptButton.addEventListener('click', async () => {
+    reset()
+    try {
+      const { encrypted, privateKey } = await encrypt()
+      decryptionKey = privateKey
+      encryptionOutput.textContent = arrayBufferToHex(encrypted)
+      encryptionInput.value = ''
+
+      decryptionBlock.classList.remove('hidden')
+    } catch (error) {
+      errorElement.textContent = error.message
+      encryptionOutput.textContent = ''
+    }
+  })
+
+  decryptButton.addEventListener('click', async () => {
+    reset()
+    try {
+      const { decrypted } = await decrypt()
+      decryptionOutput.textContent = decrypted
+    } catch (error) {
+      errorElement.textContent = error.message
+      decryptionOutput.textContent = ''
+    }
+  })
+
+  function getEncodedString(string) {
+    let encoder = new TextEncoder()
+    return encoder.encode(string)
+  }
+
+  function getDecodedString(buffer) {
+    let decoder = new TextDecoder()
+    return decoder.decode(buffer)
+  }
+
+  function arrayBufferToHex(buffer) {
+    const byteArray = new Uint8Array(buffer)
+    return Array.from(byteArray)
+      .map((byte) => byte.toString(16).padStart(2, '0'))
+      .join('')
+  }
+
+  function hexToArrayBuffer(hex) {
+    const byteArray = new Uint8Array(hex.length / 2)
+    for (let i = 0; i < byteArray.length; i++) {
+      byteArray[i] = parseInt(hex.substr(i * 2, 2), 16)
+    }
+    return byteArray.buffer
+  }
+
+  async function decrypt() {
+    const data = hexToArrayBuffer(encryptionOutput.textContent)
+
+    const decryptedString = await crypto.subtle.decrypt('RSA-OAEP', decryptionKey, data)
+
+    const decodedString = getDecodedString(decryptedString)
+    return {
+      decrypted: decodedString,
+    }
+  }
+
+  async function encrypt() {
+    if (!encryptionInput.value) {
+      throw new Error('Please enter a message')
+    }
+
+    const encodedMessage = getEncodedString(encryptionInput.value)
+
+    const { publicKey, privateKey } = await crypto.subtle.generateKey(
+      {
+        name: 'RSA-OAEP',
+        modulusLength: 2048,
+        publicExponent: new Uint8Array([1, 0, 1]),
+        hash: { name: 'SHA-256' },
+      },
+      true,
+      ['encrypt', 'decrypt']
+    )
+
+    const encrypted = await crypto.subtle.encrypt('RSA-OAEP', publicKey, encodedMessage)
+
+    return {
+      publicKey,
+      privateKey,
+      encrypted,
+    }
+  }
+
+  function reset() {
+    errorElement.textContent = ''
+    decryptionOutput.textContent = ''
+  }
+</script>
+<style>
+  #encryption-output {
+    font-size: var(--font-size-sm);
+    font-style: italic;
+  }
+
+  .error:empty {
+    display: none;
+  }
+
+  .error {
+    color: red;
+    display: block;
+    margin-top: var(--space-sm);
+  }
+</style>
