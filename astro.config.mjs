@@ -1,7 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config'
 
-import mdx from '@astrojs/mdx';
+import mdx from '@astrojs/mdx'
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,7 +11,10 @@ export default defineConfig({
 
   markdown: {
     shikiConfig: {
-      theme: 'night-owl',
+      themes: {
+        light: 'min-light',
+        dark: 'night-owl',
+      },
     },
   },
 
