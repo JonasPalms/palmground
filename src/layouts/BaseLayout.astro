@@ -37,12 +37,12 @@ const documentTitle = isHome || !title ? 'PalmPlayground' : `${title} | PalmPlay
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: rgb(var(--color-fill));
-    color: rgb(var(--color-text-base));
+    background-color: var(--color-fill);
+    color: var(--color-text-base);
   }
   main {
     flex-grow: 1;
-    max-width: 1200px;
+    max-width: 960px;
     width: 100%;
     margin-inline: auto;
     padding-inline: var(--main-pi);

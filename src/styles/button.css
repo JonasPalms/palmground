@@ -1,15 +1,15 @@
 button {
-  background-color: rgb(var(--color-accent));
+  background-color: var(--color-accent);
   padding-block: var(--space-xs);
-  padding-inline: var(--space-sm);
+  padding-inline: var(--space-md);
   border-radius: var(--space-xs);
   border: none;
-  font-size: var(--font-size-sm);
-  color: inherit;
+  font-weight: 900;
+  color: var(--color-fill);
   cursor: pointer;
 }
 
 button[data-type='secondary'] {
-  background-color: rgb(var(--color-text-base));
-  color: rgb(var(--color-fill));
+  background-color: var(--color-text-base);
+  color: var(--color-fill);
 }

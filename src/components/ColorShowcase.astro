@@ -4,7 +4,6 @@ const colors = [
   { title: 'Fill', value: '--color-fill' },
   { title: 'Text Base', value: '--color-text-base' },
   { title: 'Accent', value: '--color-accent' },
-  { title: 'Card Muted', value: '--color-card-muted' },
   { title: 'Card', value: '--color-card' },
   { title: 'Border', value: '--color-border' },
 ]
@@ -30,7 +29,7 @@ const themes = [
           <div
             class="color-swatch"
             data-theme={theme.value}
-            style={`background-color: rgb(var(${color.value}))`}
+            style={`background-color: var(${color.value})`}
           />
           <p>{color.title}</p>
         </div>
@@ -44,7 +43,7 @@ const themes = [
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 10px;
-    color: rgb(var(--color-text-base));
+    color: var(--color-text-base);
   }
 
   .color-swatch {

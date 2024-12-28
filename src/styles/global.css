@@ -8,14 +8,14 @@
 
 body {
   font-family: 'Geist Mono', sans-serif;
-  color: rgb(var(--color-text-base));
+  color: var(--color-text-base);
   font-size: var(--font-size-base);
   overflow-x: hidden;
   transition: color 0.2s ease-out, background-color 0.2s ease-out;
 }
 
 a {
-  color: rgb(var(--color-accent));
+  color: var(--color-accent);
   text-decoration: none;
 }
 
@@ -30,12 +30,12 @@ p {
 }
 
 ::selection {
-  background-color: rgb(var(--color-accent));
-  color: rgb(var(--color-fill));
+  background-color: var(--color-accent);
+  color: var(--color-fill);
 }
 
 :focus-visible:(not(input)) {
-  outline: 1px dotted rgb(var(--color-accent));
+  outline: 1px dotted var(--color-accent);
   outline-offset: 0.25rem;
 }
 
