@@ -2,7 +2,9 @@
 import Layout from '@/layouts/BaseLayout.astro'
 import BaseHeading from '@/components/BaseHeading.astro'
 
-const demoes = Object.values(import.meta.glob('@/pages/demoes/*.mdx', { eager: true }))
+const demoes = Object.values(
+  import.meta.glob(['@/pages/demoes/*.mdx', '@/pages/demoes/*.astro'], { eager: true })
+)
 ---
 
 <Layout>
@@ -11,7 +13,7 @@ const demoes = Object.values(import.meta.glob('@/pages/demoes/*.mdx', { eager: t
     {
       demoes.map((demo) => (
         <li>
-          <a href={demo.url}> {demo.frontmatter.title}</a>
+          <a href={demo.url}> {demo.frontmatter?.title}</a>
         </li>
       ))
     }

@@ -18,7 +18,7 @@ import Moon from '../assets/svg/moon.svg'
     padding: 0;
     color: inherit;
     display: grid;
-    gap: var(--toggle-size);
+    gap: calc(var(--toggle-size) / 2);
     overflow: hidden;
     transition: color 0.2s ease-out;
   }
@@ -29,7 +29,7 @@ import Moon from '../assets/svg/moon.svg'
   }
 
   :root[data-theme='dark'] svg {
-    transform: translateY(calc(var(--toggle-size) * -2));
+    transform: translateY(calc(var(--toggle-size) * -1.5));
   }
 
   #theme-toggle:hover,

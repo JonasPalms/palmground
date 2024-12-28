@@ -1,6 +1,7 @@
 ---
 title: 'Crypto API'
 layout: '@/layouts/DemoLayout.astro'
+technologies: ['js']
 ---
 
 import Crypto from '@/components/demoes/Crypto.astro'
@@ -8,13 +9,22 @@ import Crypto from '@/components/demoes/Crypto.astro'
 This demo uses the [Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
 to encrypt and decrypt messages.
 The encryption is done using the RSA-OAEP algorithm.
-Before encrypting the message, the browser generates a public and private key pair using
+Before encrypting the message, the browser generates a public and private key pair.
 
 ```js
-crypto.subtle.generateKey()
+const { publicKey, privateKey } = await crypto.subtle.generateKey(
+  {
+    name: 'RSA-OAEP',
+    modulusLength: 2048,
+    publicExponent: new Uint8Array([1, 0, 1]),
+    hash: { name: 'SHA-256' },
+  },
+  true,
+  ['encrypt', 'decrypt']
+)
 ```
 
-The public key is used to encrypt the message
+The public key is then used to encrypt the message
 
 ```js
 crypto.subtle.encrypt('RSA-OAEP', publicKey, encodedMessage)

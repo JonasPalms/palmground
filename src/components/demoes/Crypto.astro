@@ -7,8 +7,8 @@
 <div class="hidden" id="decryption">
   <button data-type="secondary" id="decrypt">Decrypt</button>
   <p>Decrypted output: <span id="decryption-output"></span></p>
-  <span class="error"></span>
 </div>
+<span class="error"></span>
 
 <script>
   const encryptButton = document.getElementById('encrypt')
@@ -116,6 +116,10 @@
   }
 </script>
 <style>
+  label {
+    margin-top: var(--space-lg);
+    display: block;
+  }
   #encryption-output {
     font-size: var(--font-size-sm);
     font-style: italic;

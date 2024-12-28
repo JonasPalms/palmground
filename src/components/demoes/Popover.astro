@@ -1,0 +1,34 @@
+<button popovertarget="pop-1">Open Popover</button>
+<div popover id="pop-1">
+  <h2>Popover content</h2>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora modi aperiam fuga tempore
+    itaque laudantium veniam nihil nulla reiciendis in!
+  </p>
+  <button popovertargetaction="hide" popovertarget="pop-1">Close</button>
+</div>
+<style>
+  button {
+    margin-block: var(--space-sm);
+  }
+  [popover] {
+    margin: auto;
+    border-radius: var(--space-xs);
+    border: 1px solid rgb(var(--color-border));
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 6px -2px rgb(0 0 0 / 0.1);
+
+    &:popover-open {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      padding: var(--space-lg);
+      max-width: 60ch;
+    }
+
+    &::backdrop {
+      background-color: hsl(0 0 0 / 0.3);
+    }
+  }
+</style>
