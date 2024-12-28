@@ -9,7 +9,7 @@ export default defineConfig({
     svg: true,
   },
   site: 'https://jonaspalms.github.io',
-  base: 'palmground',
+  base: '/palmground',
   markdown: {
     shikiConfig: {
       themes: {
