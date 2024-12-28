@@ -7,13 +7,13 @@ const demoes = Object.values(
 )
 ---
 
-<Layout>
+<Layout title="Demoes">
   <BaseHeading title="Demoes" />
   <ul>
     {
       demoes.map((demo) => (
         <li>
-          <a href={demo.url}> {demo.frontmatter?.title}</a>
+          <a href={demo.url}> {demo.frontmatter?.heading}</a>
         </li>
       ))
     }

@@ -2,6 +2,13 @@
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
 import '../styles/index.css'
+
+const { title } = Astro.props
+
+const path = Astro.url.pathname
+
+const isHome = path === '/'
+const documentTitle = isHome || !title ? 'PalmPlayground' : `${title} | PalmPlayground`
 ---
 
 <!doctype html>
@@ -11,9 +18,9 @@ import '../styles/index.css'
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>PalmPlayground</title>
+    <title>{documentTitle}</title>
 
-    <script is:inline src="/theme-selector.js"></script>
+    <script is:inline src={`${import.meta.env.BASE_URL}/theme-selector.js`}></script>
   </head>
   <body>
     <Header />

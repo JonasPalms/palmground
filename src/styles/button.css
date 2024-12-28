@@ -5,6 +5,7 @@ button {
   border-radius: var(--space-xs);
   border: none;
   font-size: var(--font-size-sm);
+  color: inherit;
   cursor: pointer;
 }
 
