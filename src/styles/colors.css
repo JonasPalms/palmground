@@ -7,22 +7,27 @@
   --lightest-blue: hsl(223, 21%, 94%);
   --brand-orange: hsl(25, 100%, 50%);
   --brown: hsl(25, 91%, 35%);
+  --light-blue: hsl(227, 100%, 72%);
   --silver: hsl(0, 0%, 80%);
-  --light-grey: hsl(227, 100%, 72%);
+  --baby-powder: hsl(120, 60%, 99%);
 }
 
 :where([data-theme='dark']) {
-  --color-fill: var(--dark-blue);
-  --color-text-base: var(--lightest-blue);
+  --bg-brand: var(--dark-blue);
+  --text-onbrand: var(--lightest-blue);
   --color-accent: var(--brand-orange);
+  --bg-button-primary: var(--brand-orange);
+  --text-button-primary: var(--dark-blue);
   --color-card: var(--grey-blue);
   --color-border: var(--brown);
 }
 
 :where([data-theme='light']) {
-  --color-fill: var(--baby-powder);
-  --color-text-base: var(--dark-grey);
+  --bg-brand: var(--baby-powder);
+  --text-onbrand: var(--dark-grey);
   --color-card: var(--silver);
+  --bg-button-primary: var(--brand-blue);
+  --text-button-primary: var(--lightest-blue);
   --color-accent: var(--brand-blue);
-  --color-border: var(--light-grey);
+  --color-border: var(--light-blue);
 }

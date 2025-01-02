@@ -1,0 +1,39 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import BaseHeading from '@/components/BaseHeading.astro'
+import ColorShowcase from '@/components/ColorShowcase.astro'
+---
+
+<BaseLayout class="showcase">
+  <BaseHeading title="Showcase" />
+  <section class="showcase">
+    <ColorShowcase />
+    <h2>Inputs</h2>
+    <div>
+      <label for="text-field">Text field</label>
+      <input type="text" id="text-field" />
+    </div>
+    <fieldset>
+      <legend>Radio Buttons</legend>
+      <div>
+        <input type="radio" id="radio-1" name="radio" value="1" checked />
+        <label for="radio-1">Option 1</label>
+      </div>
+      <div>
+        <input type="radio" id="radio-2" name="radio" value="2" />
+        <label for="radio-2">Option 2</label>
+      </div>
+      <div>
+        <input type="radio" id="radio-3" name="radio" value="3" disabled />
+        <label for="radio-3">Option 3</label>
+      </div>
+    </fieldset>
+  </section>
+</BaseLayout>
+<style>
+  .showcase {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+</style>

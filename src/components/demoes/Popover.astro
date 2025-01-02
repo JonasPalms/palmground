@@ -1,4 +1,5 @@
-<button popovertarget="pop-1">Open Popover</button>
+<button popovertarget="pop-1">Open Popover via attribute</button>
+<button id="open-popover">Open Popover via JS</button>
 <div popover id="pop-1">
   <h2>Popover content</h2>
   <p>
@@ -7,6 +8,13 @@
   </p>
   <button popovertargetaction="hide" popovertarget="pop-1">Close</button>
 </div>
+<script>
+  const popover = document.querySelector('[popover]')
+
+  document.getElementById('open-popover').addEventListener('click', () => {
+    popover.togglePopover()
+  })
+</script>
 <style>
   button {
     margin-block: var(--space-sm);

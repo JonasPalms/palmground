@@ -8,7 +8,7 @@
 
 body {
   font-family: 'Geist Mono', sans-serif;
-  color: var(--color-text-base);
+  color: var(--text-onbrand);
   font-size: var(--font-size-base);
   overflow-x: hidden;
   transition: color 0.2s ease-out, background-color 0.2s ease-out;
@@ -17,6 +17,10 @@ body {
 a {
   color: var(--color-accent);
   text-decoration: none;
+}
+
+a::selection {
+  color: var(--bg-brand);
 }
 
 ul {
@@ -31,10 +35,10 @@ p {
 
 ::selection {
   background-color: var(--color-accent);
-  color: var(--color-fill);
+  color: var(--bg-brand);
 }
 
-:focus-visible:(not(input)) {
+:focus-visible:not(input) {
   outline: 1px dotted var(--color-accent);
   outline-offset: 0.25rem;
 }

@@ -1,0 +1,68 @@
+<!-- A modal dialog containing a form -->
+<dialog id="favDialog">
+  <form>
+    <p>
+      <label>
+        Send a message
+        <input type="text" name="message" />
+      </label>
+    </p>
+    <div>
+      <button value="cancel" formmethod="dialog">Cancel</button>
+      <button id="confirmBtn" value="default">Confirm</button>
+    </div>
+  </form>
+</dialog>
+<p>
+  <button data-modal="true">Show as modal</button>
+  <button data-modal="false">Show as non-modal</button>
+</p>
+<output></output>
+<script>
+  const showButtons = document.querySelectorAll('[data-modal]')
+  const favDialog = document.getElementById('favDialog')
+  const outputBox = document.querySelector('output')
+  const messageInput = favDialog.querySelector('input')
+  const confirmBtn = favDialog.querySelector('#confirmBtn')
+
+  // "Show the dialog" button opens the <dialog> modally
+  showButtons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+      if (e.target.dataset.modal === 'false') {
+        favDialog.show()
+      } else {
+        favDialog.showModal()
+      }
+    })
+  })
+
+  // "Cancel" button closes the dialog without submitting because of [formmethod="dialog"], triggering a close event.
+  favDialog.addEventListener('close', (e) => {
+    outputBox.value =
+      favDialog.returnValue === 'default'
+        ? 'No return value.'
+        : `Return value: ${favDialog.returnValue}.` // Have to check for "default" rather than empty string
+  })
+
+  // Prevent the "confirm" button from the default behavior of submitting the form, and close the dialog with the `close()` method, which triggers the "close" event.
+  confirmBtn.addEventListener('click', (event) => {
+    event.preventDefault() // We don't want to submit this fake form
+    favDialog.close(messageInput.value) // Have to send the select box value here.
+    messageInput.value = ''
+  })
+</script>
+<style>
+  dialog {
+    margin: auto;
+    padding: var(--space-md);
+    border-radius: var(--space-xs);
+    border: 1px solid var(--color-border);
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 6px -2px rgb(0 0 0 / 0.1);
+  }
+
+  dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+  }
+</style>

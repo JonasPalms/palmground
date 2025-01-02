@@ -1,8 +1,8 @@
 ---
 // ColorShowcase.astro
 const colors = [
-  { title: 'Fill', value: '--color-fill' },
-  { title: 'Text Base', value: '--color-text-base' },
+  { title: 'Fill', value: '--bg-brand' },
+  { title: 'Text Base', value: '--text-onbrand' },
   { title: 'Accent', value: '--color-accent' },
   { title: 'Card', value: '--color-card' },
   { title: 'Border', value: '--color-border' },
@@ -43,12 +43,12 @@ const themes = [
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 10px;
-    color: var(--color-text-base);
+    color: var(--text-onbrand);
   }
 
   .color-swatch {
-    width: 100px;
-    height: 100px;
+    aspect-ratio: 1;
+
     padding: var(--space-sm);
   }
 

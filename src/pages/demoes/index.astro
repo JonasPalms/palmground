@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/BaseLayout.astro'
 import BaseHeading from '@/components/BaseHeading.astro'
-
+import Tags from '@/components/Tags.astro'
 const demoes = Object.values(
   import.meta.glob(['@/pages/demoes/*.mdx', '@/pages/demoes/*.astro'], { eager: true })
 )
@@ -14,6 +14,7 @@ const demoes = Object.values(
       demoes.map((demo) => (
         <li>
           <a href={demo.url}> {demo.frontmatter?.heading}</a>
+          <Tags tags={demo.frontmatter?.technologies} />
         </li>
       ))
     }
@@ -26,5 +27,8 @@ const demoes = Object.values(
 
   li {
     margin-bottom: var(--space-sm);
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
   }
 </style>

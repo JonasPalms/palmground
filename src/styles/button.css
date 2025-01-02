@@ -1,15 +1,19 @@
 button {
-  background-color: var(--color-accent);
+  background-color: var(--bg-button-primary);
+  color: var(--text-button-primary);
   padding-block: var(--space-xs);
   padding-inline: var(--space-md);
   border-radius: var(--space-xs);
   border: none;
   font-weight: 900;
-  color: var(--color-fill);
   cursor: pointer;
+
+  &::selection {
+    background-color: var(--text-onbrand);
+  }
 }
 
 button[data-type='secondary'] {
-  background-color: var(--color-text-base);
-  color: var(--color-fill);
+  background-color: var(--text-button-seconday);
+  color: var(--bg-button-secondary);
 }
