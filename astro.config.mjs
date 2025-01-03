@@ -9,7 +9,6 @@ export default defineConfig({
     svg: true,
   },
   site: 'https://palmo.dk',
-  base: '/palmground',
   markdown: {
     shikiConfig: {
       themes: {
