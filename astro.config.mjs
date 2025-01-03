@@ -13,7 +13,7 @@ export default defineConfig({
     svg: true,
   },
   site: 'https://palmo.dk',
-  base: SITE_BASE ?? null,
+  base: SITE_BASE || '',
   markdown: {
     rehypePlugins: [rehypeAstroRelativeMarkdownLinks],
     shikiConfig: {
