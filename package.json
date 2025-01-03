@@ -11,8 +11,7 @@
   "dependencies": {
     "@astrojs/mdx": "^4.0.3",
     "@astrojs/prism": "^3.2.0",
-    "astro": "^5.0.9",
-    "astro-rehype-relative-markdown-links": "^0.18.1"
+    "astro": "^5.0.9"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
