@@ -1,5 +1,9 @@
 // @ts-check
 import { defineConfig } from 'astro/config'
+import { loadEnv } from 'vite'
+import rehypeAstroRelativeMarkdownLinks from 'astro-rehype-relative-markdown-links'
+
+const { SITE_BASE } = loadEnv(process.env.NODE_ENV, process.cwd(), '')
 
 import mdx from '@astrojs/mdx'
 
@@ -9,7 +13,9 @@ export default defineConfig({
     svg: true,
   },
   site: 'https://palmo.dk',
+  base: SITE_BASE ?? null,
   markdown: {
+    rehypePlugins: [rehypeAstroRelativeMarkdownLinks],
     shikiConfig: {
       themes: {
         light: 'min-light',
