@@ -1,9 +1,10 @@
 ---
 import ThemeSelector from './ThemeSelector.astro'
+import { generateBaseUrl } from '@/scripts/generateBaseUrl'
 ---
 
 <header>
-  <a href=`${import.meta.env.BASE_URL}`>PalmGround</a>
+  <a href=`${generateBaseUrl('/')}`>PalmGround</a>
   <ThemeSelector />
 </header>
 <style>

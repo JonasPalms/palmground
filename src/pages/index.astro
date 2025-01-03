@@ -2,15 +2,16 @@
 import Layout from '@/layouts/BaseLayout.astro'
 import BaseHeading from '@/components/BaseHeading.astro'
 import ColorShowcase from '@/components/ColorShowcase.astro'
+import { generateBaseUrl } from '@/scripts/generateBaseUrl'
 ---
 
 <Layout>
   <BaseHeading title="Welcome to my playground" />
   <p>This is where i experiment and learn new things about the web.</p>
   <p>
-    Check out my demoes <a href=`${import.meta.env.BASE_URL}/demoes`>here</a>
+    Check out my demoes <a href=`${generateBaseUrl('/demoes')}`>here</a>
   </p>
   <p>
-    Components and styles <a href=`${import.meta.env.BASE_URL}/showcase`>here</a>
+    Components and styles <a href=`${generateBaseUrl('/showcase')}`>here</a>
   </p>
 </Layout>

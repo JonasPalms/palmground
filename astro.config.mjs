@@ -8,7 +8,7 @@ export default defineConfig({
   experimental: {
     svg: true,
   },
-  site: 'https://jonaspalms.github.io',
+  site: 'https://palmo.dk',
   base: '/palmground',
   markdown: {
     shikiConfig: {
