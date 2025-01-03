@@ -2,12 +2,12 @@
 
 ## 🎉 Introduction
 
-Welcome to my little corner of the web, where I experiment and learn new things! This project is all about exploring the vast possibilities of web development and having fun while doing it.
+Welcome to my little corner of the web, where I experiment and learn new things.  
+My main goal for this project is to have an enviromnent where I can easily try out new stuff without the hassle of setting up a repo or dealing with the codepen editor. And it has the added benefit of being able to share the experiments with others.
 
-## 🚀 Demos
+The site is built using [Astro](https://astro.build) and [MDX](https://mdxjs.com/).
+It uses [Shiki](https://shiki.style/) for code syntax highlighting.
 
-Curious to see what I've been working on? Check out my demos [here](jonaspalms.github.io/palmground/demoes).
+## 🚀 Demoes
 
-## 🌟 Enjoy!
-
-Thanks for stopping by! I hope you enjoy exploring as much as I do!
+Curious to see what I've been working on? Check out my demoes [here](https://jonaspalms.github.io/palmground/demoes).
