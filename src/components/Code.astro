@@ -1,13 +1,30 @@
 ---
 import { Code } from 'astro:components'
-import '@/styles/code.css'
 
-const { code, lang = 'js' } = Astro.props
+const allDemos = await import.meta.glob('/src/components/demoes/*.astro', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+})
+
+const { component } = Astro.props
+
+// Find the matching demo by comparing the full file path
+const demoPath = Object.keys(allDemos).find((path) =>
+  path.endsWith(component.file.split('/').pop())
+)
+
+if (!demoPath) {
+  throw new Error(`Source file not found: ${component.file}`)
+}
+
+const sourceCode = allDemos[demoPath]
 ---
 
-<Code id="code" code={code} lang={lang} theme="night-owl" />
+<Code code={sourceCode} theme="github-dark" lang="astro" wrap />
 
-<script>
-  const codeElement = document.getElementById('code')
-  codeElement.classList.add('astro-code')
-</script>
+<style>
+  pre {
+    margin-block: var(--space-lg);
+  }
+</style>

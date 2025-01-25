@@ -1,12 +1,12 @@
 ---
-import BaseLayout from './BaseLayout.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
 import BaseHeading from '@/components/BaseHeading.astro'
-const { frontmatter } = Astro.props
+const { title, heading } = Astro.props
 ---
 
-<BaseLayout title={frontmatter.title}>
+<BaseLayout title={title}>
   <article>
-    <BaseHeading title={frontmatter.heading} />
+    <BaseHeading title={heading} />
     <slot />
   </article>
 </BaseLayout>

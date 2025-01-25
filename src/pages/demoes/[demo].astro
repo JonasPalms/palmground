@@ -1,0 +1,21 @@
+---
+import DemoLayout from '@/layouts/DemoLayout.astro'
+import { demos } from '@/data/demos'
+import Code from '@/components/Code.astro'
+
+export function getStaticPaths() {
+  return demos.map(({ route, title, heading, component }) => {
+    return {
+      params: { demo: route },
+      props: { title, heading, component },
+    }
+  })
+}
+
+const { title, heading, component } = Astro.props
+---
+
+<DemoLayout title={title} heading={heading}>
+  <component.default />
+  <Code component={component} />
+</DemoLayout>

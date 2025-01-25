@@ -1,4 +1,3 @@
-<!-- A modal dialog containing a form -->
 <dialog id="favDialog">
   <form>
     <p>
@@ -25,7 +24,6 @@
   const messageInput = favDialog.querySelector('input')
   const confirmBtn = favDialog.querySelector('#confirmBtn')
 
-  // "Show the dialog" button opens the <dialog> modally
   showButtons.forEach((button) => {
     button.addEventListener('click', (e) => {
       if (e.target.dataset.modal === 'false') {
@@ -36,18 +34,17 @@
     })
   })
 
-  // "Cancel" button closes the dialog without submitting because of [formmethod="dialog"], triggering a close event.
   favDialog.addEventListener('close', (e) => {
     outputBox.value =
       favDialog.returnValue === 'default'
         ? 'No return value.'
-        : `Return value: ${favDialog.returnValue}.` // Have to check for "default" rather than empty string
+        : `Return value: ${favDialog.returnValue}.`
   })
 
-  // Prevent the "confirm" button from the default behavior of submitting the form, and close the dialog with the `close()` method, which triggers the "close" event.
+
   confirmBtn.addEventListener('click', (event) => {
-    event.preventDefault() // We don't want to submit this fake form
-    favDialog.close(messageInput.value) // Have to send the select box value here.
+    event.preventDefault()
+    favDialog.close(messageInput.value)
     messageInput.value = ''
   })
 </script>

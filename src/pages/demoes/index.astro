@@ -2,24 +2,26 @@
 import Layout from '@/layouts/BaseLayout.astro'
 import BaseHeading from '@/components/BaseHeading.astro'
 import Tags from '@/components/Tags.astro'
-const demoes = Object.values(
-  import.meta.glob(['@/pages/demoes/*.mdx', '@/pages/demoes/*.astro'], { eager: true })
-)
+import { getStaticPaths } from './[demo].astro'
+
+// Get all the routes that were generated
+const routes = await getStaticPaths()
 ---
 
 <Layout title="Demoes">
   <BaseHeading title="Demoes" />
   <ul>
     {
-      demoes.map((demo) => (
+      routes.map(({ params, props }) => (
         <li>
-          <a href={demo.url}> {demo.frontmatter?.heading}</a>
-          <Tags tags={demo.frontmatter?.technologies} />
+          <a href={`/demoes/${params.demo}`}>{props.heading}</a>
+          <Tags tags={props.technologies} />
         </li>
       ))
     }
   </ul>
 </Layout>
+
 <style>
   ul {
     margin-top: var(--space-lg);
