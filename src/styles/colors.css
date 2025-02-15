@@ -1,33 +1,35 @@
 :root {
-  --alpha-channel: 1;
-  --dark-grey: hsl(300, 1%, 15%);
-  --brand-blue: hsl(215, 100%, 50%);
-  --dark-blue: hsl(224, 25%, 17%);
-  --grey-blue: hsl(225, 30%, 29%);
-  --lightest-blue: hsl(223, 21%, 94%);
-  --brand-orange: hsl(25, 100%, 50%);
-  --brown: hsl(25, 91%, 35%);
-  --light-blue: hsl(227, 100%, 72%);
-  --silver: hsl(0, 0%, 80%);
-  --baby-powder: hsl(120, 60%, 99%);
+  /* Base HSL values */
+  --dark-grey-hsl: 300, 1%, 15%;
+  --brand-blue-hsl: 215, 100%, 50%;
+  --dark-blue-hsl: 224, 25%, 17%;
+  --grey-blue-hsl: 225, 30%, 29%;
+  --lightest-blue-hsl: 223, 21%, 94%;
+  --brand-orange-hsl: 25, 100%, 50%;
+  --brown-hsl: 25, 91%, 35%;
+  --light-blue-hsl: 227, 100%, 72%;
+  --silver-hsl: 0, 0%, 80%;
+  --baby-powder-hsl: 120, 60%, 99%;
 }
 
 :where([data-theme='dark']) {
-  --bg-brand: var(--dark-blue);
-  --text-onbrand: var(--lightest-blue);
-  --color-accent: var(--brand-orange);
-  --bg-button-primary: var(--brand-orange);
-  --text-button-primary: var(--dark-blue);
-  --color-card: var(--grey-blue);
-  --color-border: var(--brown);
+  --bg-brand: hsla(var(--dark-blue-hsl), 1);
+  --text-onbrand: hsla(var(--lightest-blue-hsl), 1);
+  --text-onbrand-muted: hsla(var(--lightest-blue-hsl), 0.5);
+  --color-accent: hsla(var(--brand-orange-hsl), 1);
+  --bg-button-primary: hsla(var(--brand-orange-hsl), 1);
+  --text-button-primary: hsla(var(--dark-blue-hsl), 1);
+  --color-card: hsla(var(--grey-blue-hsl), 1);
+  --color-border: hsla(var(--brown-hsl), 1);
 }
 
 :where([data-theme='light']) {
-  --bg-brand: var(--baby-powder);
-  --text-onbrand: var(--dark-grey);
-  --color-card: var(--silver);
-  --bg-button-primary: var(--brand-blue);
-  --text-button-primary: var(--lightest-blue);
-  --color-accent: var(--brand-blue);
-  --color-border: var(--light-blue);
+  --bg-brand: hsla(var(--baby-powder-hsl), 1);
+  --text-onbrand: hsla(var(--dark-grey-hsl), 1);
+  --text-onbrand-muted: hsla(var(--dark-grey-hsl), 0.5);
+  --color-card: hsla(var(--silver-hsl), 1);
+  --bg-button-primary: hsla(var(--brand-blue-hsl), 1);
+  --text-button-primary: hsla(var(--lightest-blue-hsl), 1);
+  --color-accent: hsla(var(--brand-blue-hsl), 1);
+  --color-border: hsla(var(--light-blue-hsl), 1);
 }

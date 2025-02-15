@@ -3,6 +3,7 @@ import Layout from '@/layouts/BaseLayout.astro'
 import BaseHeading from '@/components/BaseHeading.astro'
 import Tags from '@/components/Tags.astro'
 import { getStaticPaths } from './[demo].astro'
+import { generateBaseUrl } from '@/utils/generateBaseUrl'
 
 // Get all the routes that were generated
 const routes = await getStaticPaths()
@@ -14,7 +15,7 @@ const routes = await getStaticPaths()
     {
       routes.map(({ params, props }) => (
         <li>
-          <a href={`/demoes/${params.demo}`}>{props.heading}</a>
+          <a href={generateBaseUrl(`/demoes/${params.demo}`)}>{props.heading}</a>
           <Tags tags={props.technologies} />
         </li>
       ))

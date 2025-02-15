@@ -1,0 +1,68 @@
+<div>
+  <button id="annoying">Click me!</button>
+</div>
+
+<script>
+  const button = document.querySelector('#annoying')
+
+  button.addEventListener('pointerenter', mouseOver)
+
+  const currentPos = {
+    left: 0,
+    top: 0,
+  }
+
+  const minDistance = 30
+  const maxDistance = 60
+
+  async function mouseOver() {
+    while (button.matches(':hover')) {
+      await moveButton()
+    }
+  }
+
+  async function moveButton() {
+    return new Promise((res) => {
+      const prevLeft = currentPos.left
+      const prevTop = currentPos.top
+
+      currentPos.left = currentPos.left + getRandomVector()
+      currentPos.top = currentPos.top + getRandomVector()
+
+      const keyframes = [
+        { transform: `translate(${prevLeft}px, ${prevTop}px)` },
+        { transform: `translate(${currentPos.left}px, ${currentPos.top}px)` },
+      ]
+
+      const animation = button.animate(keyframes, {
+        duration: 200,
+        easing: 'ease-in-out',
+        fill: 'forwards',
+      })
+
+      animation.onfinish = () => {
+        res()
+      }
+    })
+  }
+
+  function getRandomVector() {
+    const randomDistance = Math.floor(Math.random() * (maxDistance - minDistance) + minDistance)
+    const randomDirection = Math.random() < 0.5 ? -1 : 1
+
+    return randomDirection * randomDistance
+  }
+</script>
+
+<style>
+  div {
+    display: grid;
+    place-items: center;
+    min-height: 50vh;
+    border: 1px solid var(--color-accent);
+  }
+
+  button {
+    transition: transform 0.1s ease-in-out;
+  }
+</style>

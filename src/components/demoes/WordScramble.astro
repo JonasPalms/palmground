@@ -1,0 +1,75 @@
+<ul class="scramble">
+  <li>01: Hover</li>
+  <li>02: These</li>
+  <li>03: Words</li>
+  <li>04: Palmground</li>
+</ul>
+
+<style>
+  ul {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: var(--space-md);
+  }
+
+  li {
+    font-size: var(--font-size-lg);
+    text-transform: uppercase;
+    padding-inline: var(--space-md);
+    position: relative;
+  }
+
+  li::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-accent);
+    transform: skew(-15deg);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  li:hover::before {
+    opacity: 1;
+  }
+
+  li:hover {
+    color: var(--bg-brand);
+  }
+</style>
+
+<script>
+  const words = document.querySelectorAll('.scramble li')
+
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const offset = 3
+  const delay = 40
+
+  words.forEach((word) => {
+    word.dataset.original = word.textContent
+
+    word.addEventListener('mouseenter', () => {
+      let iteration = 0
+      const interval = setInterval(() => {
+        word.textContent = scrambleWord(word, iteration)
+
+        if (iteration === word.textContent.length + offset) clearInterval(interval)
+
+        iteration += 1 / 2
+      }, delay)
+    })
+  })
+
+  function scrambleWord(word, iteration) {
+    return word.textContent
+      .split('')
+      .map((letter, index) =>
+        iteration < index + offset
+          ? letters[Math.floor(Math.random() * letters.length)]
+          : word.dataset.original[index]
+      )
+      .join('')
+  }
+</script>

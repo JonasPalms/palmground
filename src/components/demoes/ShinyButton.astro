@@ -1,0 +1,32 @@
+<div>
+  <button>Shiny Button</button>
+</div>
+
+<style>
+  button {
+    margin-inline: auto;
+    display: block;
+    position: relative;
+  }
+
+  @property --gradient-angle {
+    syntax: '<angle>';
+    initial-value: 90deg;
+    inherits: false;
+  }
+  button::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+
+    z-index: -1;
+    background: linear-gradient(var(--gradient-angle), purple, orange);
+    animation: rotate-gradient 4s cubic-bezier(0.37, 0.71, 0.59, 0.19) infinite;
+    border-radius: inherit;
+  }
+  @keyframes rotate-gradient {
+    to {
+      --gradient-angle: 360deg;
+    }
+  }
+</style>

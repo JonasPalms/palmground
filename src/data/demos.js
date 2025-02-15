@@ -26,4 +26,25 @@ export const demos = [
     technologies: ['html', 'javascript'],
     component: getDemoComponent('Popover'),
   },
+  {
+    route: 'shiny-button',
+    title: 'Shiny Button',
+    heading: 'Shiny Button',
+    technologies: ['html', 'javascript'],
+    component: getDemoComponent('ShinyButton'),
+  },
+  {
+    route: 'word-scramble',
+    title: 'Word Scramble',
+    heading: 'Word Scramble',
+    technologies: ['html', 'javascript'],
+    component: getDemoComponent('WordScramble'),
+  },
+  {
+    route: 'annoying-button',
+    title: 'Annoying Button',
+    heading: 'Annoying Button',
+    technologies: ['html', 'javascript'],
+    component: getDemoComponent('AnnoyingButton'),
+  },
 ]

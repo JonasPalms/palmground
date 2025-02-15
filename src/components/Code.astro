@@ -19,12 +19,64 @@ if (!demoPath) {
 }
 
 const sourceCode = allDemos[demoPath]
+
+function extractSections(code) {
+  const styleMatch = code.match(/<style>([\s\S]*?)<\/style>/)
+  const scriptMatch = code.match(/<script>([\s\S]*?)<\/script>/)
+
+  let markup = code
+    .replace(/<style>[\s\S]*?<\/style>/, '')
+    .replace(/<script>[\s\S]*?<\/script>/, '')
+    .trim()
+
+  return {
+    markup,
+    style: styleMatch ? styleMatch[1].trim() : '',
+    script: scriptMatch ? scriptMatch[1].trim() : '',
+  }
+}
+
+const { markup, style, script } = extractSections(sourceCode)
 ---
 
-<Code code={sourceCode} theme="github-dark" lang="astro" wrap />
+{
+  markup && (
+    <div class="code-block">
+      <h3>Markup</h3>
+      <Code code={markup} theme="github-dark" lang="html" wrap />
+    </div>
+  )
+}
+
+{
+  style && (
+    <div class="code-block">
+      <h3>Styles</h3>
+      <Code code={style} theme="github-dark" lang="css" wrap />
+    </div>
+  )
+}
+
+{
+  script && (
+    <div class="code-block">
+      <h3>Script</h3>
+      <Code code={script} theme="github-dark" lang="javascript" wrap />
+    </div>
+  )
+}
 
 <style>
-  pre {
-    margin-block: var(--space-lg);
+  .code-block {
+    margin-block: var(--space-xl);
+    position: relative;
+  }
+
+  h3 {
+    position: absolute;
+    top: -1ch;
+    right: 1ch;
+    line-height: 1;
+    color: var(--color-accent);
   }
 </style>

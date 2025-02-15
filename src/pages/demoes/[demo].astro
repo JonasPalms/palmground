@@ -13,6 +13,10 @@ export function getStaticPaths() {
 }
 
 const { title, heading, component } = Astro.props
+
+if (!component) {
+  throw new Error('Component not found')
+}
 ---
 
 <DemoLayout title={title} heading={heading}>
