@@ -4,20 +4,25 @@
 
 <script>
   const button = document.querySelector('#annoying')
+  const parent = button.parentElement
 
   button.addEventListener('pointerenter', mouseOver)
+  button.addEventListener('click', handleClick)
 
   const currentPos = {
     left: 0,
     top: 0,
   }
 
-  const minDistance = 30
-  const maxDistance = 60
+  const minDistance = 50
+  const maxDistance = 80
+  let moving = false
 
   async function mouseOver() {
-    while (button.matches(':hover')) {
+    if (button.matches(':hover') && !moving) {
+      moving = true
       await moveButton()
+      moving = false
     }
   }
 
@@ -26,8 +31,41 @@
       const prevLeft = currentPos.left
       const prevTop = currentPos.top
 
-      currentPos.left = currentPos.left + getRandomVector()
-      currentPos.top = currentPos.top + getRandomVector()
+      const parentRect = parent.getBoundingClientRect()
+      const buttonRect = button.getBoundingClientRect()
+      const buttonWidth = buttonRect.width
+      const buttonHeight = buttonRect.height
+
+      const distanceLeft = buttonRect.left - parentRect.left
+      const distanceTop = buttonRect.top - parentRect.top
+      const distanceRight = parentRect.right - buttonRect.right
+      const distanceBottom = parentRect.bottom - buttonRect.bottom
+
+      const xDistance = getRandomDistance()
+      const yDistance = getRandomDistance()
+      const xDirection = getRandomDirection()
+      const yDirection = getRandomDirection()
+
+      const isNearLeft = distanceLeft < xDistance
+      const isNearRight = distanceRight < xDistance
+      const isNearTop = distanceTop < yDistance
+      const isNearBottom = distanceBottom < yDistance
+
+      if (isNearLeft) {
+        currentPos.left += xDistance
+      } else if (isNearRight) {
+        currentPos.left -= xDistance
+      } else {
+        currentPos.left += xDistance * xDirection
+      }
+
+      if (isNearTop) {
+        currentPos.top += yDistance
+      } else if (isNearBottom) {
+        currentPos.top -= yDistance
+      } else {
+        currentPos.top += yDistance * yDirection
+      }
 
       const keyframes = [
         { transform: `translate(${prevLeft}px, ${prevTop}px)` },
@@ -35,7 +73,7 @@
       ]
 
       const animation = button.animate(keyframes, {
-        duration: 200,
+        duration: 150,
         easing: 'ease-in-out',
         fill: 'forwards',
       })
@@ -46,11 +84,16 @@
     })
   }
 
-  function getRandomVector() {
-    const randomDistance = Math.floor(Math.random() * (maxDistance - minDistance) + minDistance)
-    const randomDirection = Math.random() < 0.5 ? -1 : 1
+  function getRandomDistance() {
+    return Math.floor(Math.random() * (maxDistance - minDistance) + minDistance)
+  }
 
-    return randomDirection * randomDistance
+  function getRandomDirection() {
+    return Math.random() < 0.5 ? -1 : 1
+  }
+
+  function handleClick() {
+    button.innerText = 'Clicked!'
   }
 </script>
 
