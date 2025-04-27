@@ -29,10 +29,25 @@ function extractSections(code) {
     .replace(/<script>[\s\S]*?<\/script>/, '')
     .trim()
 
+  // Function to remove common indentation from a code block
+  const removeIndentation = (str) => {
+    if (!str) return ''
+    const lines = str.split('\n')
+    // Find the minimum indentation level (excluding empty lines)
+    const minIndent = Math.min(
+      ...lines.filter((line) => line.trim()).map((line) => line.match(/^\s*/)[0].length)
+    )
+    // Remove that amount of indentation from each line
+    return lines
+      .map((line) => line.slice(minIndent))
+      .join('\n')
+      .trim()
+  }
+
   return {
     markup,
-    style: styleMatch ? styleMatch[1].trim() : '',
-    script: scriptMatch ? scriptMatch[1].trim() : '',
+    style: styleMatch ? removeIndentation(styleMatch[1]) : '',
+    script: scriptMatch ? removeIndentation(scriptMatch[1]) : '',
   }
 }
 
@@ -68,7 +83,7 @@ const { markup, style, script } = extractSections(sourceCode)
 
 <style>
   .code-block {
-    margin-block: var(--space-xl);
+    margin-block: var(--space-xxl);
     position: relative;
   }
 
