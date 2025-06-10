@@ -21,12 +21,19 @@ if (!demoPath) {
 const sourceCode = allDemos[demoPath]
 
 function extractSections(code) {
-  const styleMatch = code.match(/<style>([\s\S]*?)<\/style>/)
-  const scriptMatch = code.match(/<script>([\s\S]*?)<\/script>/)
+  // Remove frontmatter first
+  const frontmatterMatch = code.match(/^---\n([\s\S]*?)\n---/)
+  let codeWithoutFrontmatter = code
+  if (frontmatterMatch) {
+    codeWithoutFrontmatter = code.replace(/^---\n[\s\S]*?\n---\n/, '')
+  }
 
-  let markup = code
+  const styleMatch = codeWithoutFrontmatter.match(/<style>([\s\S]*?)<\/style>/)
+  const scriptMatch = codeWithoutFrontmatter.match(/<script[^>]*>([\s\S]*?)<\/script>/)
+
+  let markup = codeWithoutFrontmatter
     .replace(/<style>[\s\S]*?<\/style>/, '')
-    .replace(/<script>[\s\S]*?<\/script>/, '')
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/, '')
     .trim()
 
   // Function to remove common indentation from a code block
