@@ -47,4 +47,11 @@ export const demos = [
     technologies: ['html', 'javascript'],
     component: getDemoComponent('AnnoyingButton'),
   },
+  {
+    route: 'wordle',
+    title: 'Wordle',
+    heading: 'Wordle',
+    technologies: ['html', 'javascript'],
+    component: getDemoComponent('Wordle'),
+  },
 ]

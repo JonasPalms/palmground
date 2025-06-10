@@ -1,0 +1,328 @@
+---
+import validWords from '@/data/wordle/valid-words.txt?raw'
+import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
+---
+
+<div id="error-message">Prø'li hør her makker</div>
+<div id="board">
+  <div class="row" data-row="1">
+    <div class="cell" data-col="1"></div>
+    <div class="cell" data-col="2"></div>
+    <div class="cell" data-col="3"></div>
+    <div class="cell" data-col="4"></div>
+    <div class="cell" data-col="5"></div>
+  </div>
+  <div class="row" data-row="2">
+    <div class="cell" data-col="1"></div>
+    <div class="cell" data-col="2"></div>
+    <div class="cell" data-col="3"></div>
+    <div class="cell" data-col="4"></div>
+    <div class="cell" data-col="5"></div>
+  </div>
+  <div class="row" data-row="3">
+    <div class="cell" data-col="1"></div>
+    <div class="cell" data-col="2"></div>
+    <div class="cell" data-col="3"></div>
+    <div class="cell" data-col="4"></div>
+    <div class="cell" data-col="5"></div>
+  </div>
+  <div class="row" data-row="4">
+    <div class="cell" data-col="1"></div>
+    <div class="cell" data-col="2"></div>
+    <div class="cell" data-col="3"></div>
+    <div class="cell" data-col="4"></div>
+    <div class="cell" data-col="5"></div>
+  </div>
+  <div class="row" data-row="5">
+    <div class="cell" data-col="1"></div>
+    <div class="cell" data-col="2"></div>
+    <div class="cell" data-col="3"></div>
+    <div class="cell" data-col="4"></div>
+    <div class="cell" data-col="5"></div>
+  </div>
+  <div class="row" data-row="6">
+    <div class="cell" data-col="1"></div>
+    <div class="cell" data-col="2"></div>
+    <div class="cell" data-col="3"></div>
+    <div class="cell" data-col="4"></div>
+    <div class="cell" data-col="5"></div>
+  </div>
+</div>
+<div class="keyboard">
+  <div class="row">
+    <button class="key" data-key="q" aria-label="Press Q key">Q</button>
+    <button class="key" data-key="w" aria-label="Press W key">W</button>
+    <button class="key" data-key="e" aria-label="Press E key">E</button>
+    <button class="key" data-key="r" aria-label="Press R key">R</button>
+    <button class="key" data-key="t" aria-label="Press T key">T</button>
+    <button class="key" data-key="y" aria-label="Press Y key">Y</button>
+    <button class="key" data-key="u" aria-label="Press U key">U</button>
+    <button class="key" data-key="i" aria-label="Press I key">I</button>
+    <button class="key" data-key="o" aria-label="Press O key">O</button>
+    <button class="key" data-key="p" aria-label="Press P key">P</button>
+  </div>
+  <div class="row">
+    <button class="key" data-key="a" aria-label="Press A key">A</button>
+    <button class="key" data-key="s" aria-label="Press S key">S</button>
+    <button class="key" data-key="d" aria-label="Press D key">D</button>
+    <button class="key" data-key="f" aria-label="Press F key">F</button>
+    <button class="key" data-key="g" aria-label="Press G key">G</button>
+    <button class="key" data-key="h" aria-label="Press H key">H</button>
+    <button class="key" data-key="j" aria-label="Press J key">J</button>
+    <button class="key" data-key="k" aria-label="Press K key">K</button>
+    <button class="key" data-key="l" aria-label="Press L key">L</button>
+  </div>
+  <div class="row">
+    <button class="key" data-key="enter" aria-label="Press Enter key">ENTER</button>
+    <button class="key" data-key="z" aria-label="Press Z key">Z</button>
+    <button class="key" data-key="x" aria-label="Press X key">X</button>
+    <button class="key" data-key="c" aria-label="Press C key">C</button>
+    <button class="key" data-key="v" aria-label="Press V key">V</button>
+    <button class="key" data-key="b" aria-label="Press B key">B</button>
+    <button class="key" data-key="n" aria-label="Press N key">N</button>
+    <button class="key" data-key="m" aria-label="Press M key">M</button>
+    <button class="key" data-key="backspace" aria-label="Press Backspace key">⌫</button>
+  </div>
+</div>
+
+<style>
+  #board {
+    --gap: 0.5rem;
+    inline-size: min(70vw, 400px);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+  }
+
+  .row {
+    display: flex;
+    gap: var(--gap);
+    flex: 1;
+  }
+
+  .cell {
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    flex: 1;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    transform-style: preserve-3d;
+    transform: rotateX(0deg);
+    animation: flip 0.5s ease;
+    animation-fill-mode: forwards;
+    position: relative;
+  }
+
+  @keyframes flip {
+    0% {
+      transform: rotateX(0deg);
+      background-color: transparent;
+    }
+
+    50% {
+      transform: rotateX(90deg);
+    }
+
+    100% {
+      transform: rotateX(0deg);
+      background-color: var(--color-back);
+    }
+  }
+
+  .keyboard {
+    margin-block: 2rem;
+    --gap: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  #error-message {
+    color: red;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-block: 1rem;
+    display: none;
+  }
+
+  .cell.correct {
+    --color-back: darkgreen;
+  }
+
+  .cell.present {
+    --color-back: rgb(185, 185, 69);
+  }
+
+  .cell.absent {
+    --color-back: gray;
+  }
+
+  .key.correct {
+    background-color: darkgreen;
+  }
+
+  .key.present {
+    background-color: rgb(185, 185, 69);
+  }
+
+  .key.absent {
+    background-color: gray;
+  }
+</style>
+
+<script is:inline define:vars={{ validWords, validGuesses }}>
+  const board = document.getElementById('board')
+  const rows = board.querySelectorAll('[data-row]')
+  const errorMessage = document.getElementById('error-message')
+  const keyboard = document.querySelector('.keyboard')
+
+  const words = validWords.split('\n')
+  const guessableWords = validGuesses.split('\n')
+  const targetWord = words[Math.floor(Math.random() * words.length)]
+  const validLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+  const gameState = {
+    currentRow: 1,
+    currentCol: 0,
+    currentLetter: '',
+    word: '',
+    targetWord: targetWord,
+    targetWordLetters: targetWord.split(''),
+    guesses: [],
+  }
+
+  function incrementCol() {
+    if (gameState.currentCol < 5) {
+      gameState.currentCol++
+    }
+  }
+
+  function decrementCol() {
+    if (gameState.currentCol > 0) {
+      gameState.currentCol--
+    }
+  }
+
+  function getCurrentCell() {
+    const currentRow = Array.from(rows).find(
+      (row) => row.dataset.row === gameState.currentRow.toString()
+    )
+    return currentRow?.querySelector(`[data-col="${gameState.currentCol}"]`)
+  }
+
+  function writeLetter(letter) {
+    if (gameState.word.length === 5) return
+
+    gameState.currentLetter = letter
+    incrementCol()
+    const currentCell = getCurrentCell()
+    if (!currentCell) return
+    currentCell.innerText = letter
+    gameState.word += letter
+  }
+
+  function deleteLetter() {
+    const currentCell = getCurrentCell()
+    if (!currentCell) return
+    currentCell.innerText = ''
+    decrementCol()
+    gameState.word = gameState.word.slice(0, -1)
+    gameState.currentLetter = ''
+  }
+
+  function addGuess() {
+    const guessLetters = gameState.word.split('')
+
+    const result = guessLetters.map((letter, index) => {
+      if (letter === gameState.targetWordLetters[index]) {
+        return { letter, status: 'correct' }
+      } else if (gameState.targetWordLetters.includes(letter)) {
+        return { letter, status: 'present' }
+      } else {
+        return { letter, status: 'absent' }
+      }
+    })
+
+    const currentRow = Array.from(rows).find(
+      (row) => row.dataset.row === gameState.currentRow.toString()
+    )
+    if (!currentRow) return
+    currentRow.querySelectorAll('.cell').forEach((cell, index) => {
+      cell.classList.add(result[index].status)
+    })
+
+    const keyboardKeys = keyboard.querySelectorAll('.key')
+
+    keyboardKeys.forEach((key) => {
+      const status = result.find(({ letter }) => letter === key.dataset.key)?.status
+      if (status) {
+        key.classList.add(status)
+      }
+    })
+  }
+
+  function moveToNextRow() {
+    gameState.guesses.push(gameState.word)
+    gameState.word = ''
+    gameState.currentCol = 0
+    gameState.currentLetter = ''
+    gameState.currentRow++
+
+    if (gameState.currentRow > 6) {
+      console.log('Game over')
+    }
+  }
+
+  function showError() {
+    errorMessage.style.display = 'block'
+    setTimeout(() => {
+      errorMessage.style.display = 'none'
+    }, 3000)
+  }
+
+  function handleKeyPress(letter) {
+    switch (letter) {
+      case 'Backspace':
+        deleteLetter()
+        break
+      case 'Enter':
+        console.log(gameState.word)
+        if (gameState.word.length === 5) {
+          const isValid = guessableWords.includes(gameState.word.toLowerCase())
+          if (isValid) {
+            addGuess()
+            moveToNextRow()
+            console.log(gameState)
+          } else {
+            showError()
+          }
+        }
+        break
+      default:
+        if (validLetters.includes(letter.toUpperCase())) {
+          writeLetter(letter)
+        }
+        break
+    }
+  }
+
+  // Event listeners
+  keyboard.addEventListener('click', (e) => {
+    if (!e.target.matches('.key')) return
+    const letter = e.target.dataset.key
+    handleKeyPress(letter)
+  })
+
+  window.addEventListener('keydown', async (e) => {
+    if (e.repeat) return
+    if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return
+    console.log(e)
+    handleKeyPress(e.key)
+  })
+</script>
