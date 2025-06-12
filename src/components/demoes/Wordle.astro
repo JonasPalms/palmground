@@ -112,19 +112,17 @@ import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
     font-size: 2rem;
     transform-style: preserve-3d;
     transform: rotateX(0deg);
-    animation: flip 0.5s ease;
-    animation-fill-mode: forwards;
     position: relative;
   }
 
   @keyframes flip {
     0% {
       transform: rotateX(0deg);
-      background-color: transparent;
     }
 
     50% {
       transform: rotateX(90deg);
+      background-color: transparent;
     }
 
     100% {
@@ -210,10 +208,12 @@ import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
   }
 
   function getCurrentCell() {
-    const currentRow = Array.from(rows).find(
-      (row) => row.dataset.row === gameState.currentRow.toString()
-    )
+    const currentRow = getCurrentRow()
     return currentRow?.querySelector(`[data-col="${gameState.currentCol}"]`)
+  }
+
+  function getCurrentRow() {
+    return Array.from(rows).find((row) => row.dataset.row === gameState.currentRow.toString())
   }
 
   function writeLetter(letter) {
@@ -236,7 +236,17 @@ import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
     gameState.currentLetter = ''
   }
 
-  function addGuess() {
+  async function flipCells(cells) {
+    const promises = Array.from(cells).map((cell, index) => {
+      return new Promise((resolve) => {
+        cell.style.animation = `flip 0.5s ease forwards ${index * 0.5}s`
+        cell.addEventListener('animationend', resolve, { once: true })
+      })
+    })
+    await Promise.all(promises)
+  }
+
+  async function addGuess() {
     const guessLetters = gameState.word.split('')
 
     const result = guessLetters.map((letter, index) => {
@@ -249,19 +259,21 @@ import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
       }
     })
 
-    const currentRow = Array.from(rows).find(
-      (row) => row.dataset.row === gameState.currentRow.toString()
-    )
+    const currentRow = getCurrentRow()
     if (!currentRow) return
-    currentRow.querySelectorAll('.cell').forEach((cell, index) => {
+    const cells = currentRow.querySelectorAll('.cell')
+
+    cells.forEach((cell, index) => {
       cell.classList.add(result[index].status)
     })
 
-    const keyboardKeys = keyboard.querySelectorAll('.key')
+    await flipCells(cells)
 
+    const keyboardKeys = keyboard.querySelectorAll('.key')
     keyboardKeys.forEach((key) => {
       const status = result.find(({ letter }) => letter === key.dataset.key)?.status
       if (status) {
+        key.classList.remove('correct', 'present', 'absent')
         key.classList.add(status)
       }
     })
