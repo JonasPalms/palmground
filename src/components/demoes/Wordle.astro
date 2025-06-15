@@ -1,9 +1,15 @@
 ---
 import validWords from '@/data/wordle/valid-words.txt?raw'
 import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
+import BasePopover from '@/components/BasePopover.astro'
 ---
 
-<div id="error-message">Prø'li hør her makker</div>
+<BasePopover message="Prøli hør her makker" triggerId="error-message" />
+<dialog id="game-over-dialog">
+  <h2 id="dialog-title"></h2>
+  <p id="dialog-message"></p>
+  <button id="play-again-button">Play Again</button>
+</dialog>
 <div id="board">
   <div class="row" data-row="1">
     <div class="cell" data-col="1"></div>
@@ -95,6 +101,22 @@ import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
     gap: var(--gap);
   }
 
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .cell:not(:empty) {
+    animation: pulse 0.2s ease-out;
+  }
+
   .row {
     display: flex;
     gap: var(--gap);
@@ -172,13 +194,44 @@ import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
   .key.absent {
     background-color: gray;
   }
+
+  dialog {
+    margin: auto;
+    padding: var(--space-lg);
+    border-radius: var(--space-xs);
+    border: 1px solid var(--color-border);
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 6px -2px rgb(0 0 0 / 0.1);
+    text-align: center;
+  }
+
+  dialog::backdrop {
+    background-color: hsl(0 0 0 / 0.3);
+  }
+
+  dialog button {
+    margin-top: var(--space-md);
+    padding: 0.5rem 1rem;
+    background-color: var(--color-accent);
+    color: var(--bg-brand);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  dialog button:hover {
+    opacity: 0.9;
+  }
 </style>
 
 <script is:inline define:vars={{ validWords, validGuesses }}>
+  // Game initialization
   const board = document.getElementById('board')
   const rows = board.querySelectorAll('[data-row]')
-  const errorMessage = document.getElementById('error-message')
   const keyboard = document.querySelector('.keyboard')
+  const playAgainButton = document.getElementById('play-again-button')
 
   const words = validWords.split('\n')
   const guessableWords = validGuesses.split('\n')
@@ -193,8 +246,41 @@ import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
     targetWord: targetWord,
     targetWordLetters: targetWord.split(''),
     guesses: [],
+    animating: false,
+    gameOver: false,
   }
 
+  // Game state management
+  function resetGame() {
+    gameState.currentRow = 1
+    gameState.currentCol = 0
+    gameState.currentLetter = ''
+    gameState.word = ''
+    gameState.guesses = []
+    gameState.animating = false
+    gameState.gameOver = false
+
+    gameState.targetWord = words[Math.floor(Math.random() * words.length)]
+    gameState.targetWordLetters = gameState.targetWord.split('')
+
+    // Reset board
+    rows.forEach((row) => {
+      const cells = row.querySelectorAll('.cell')
+      cells.forEach((cell) => {
+        cell.innerText = ''
+        cell.className = 'cell'
+        cell.style.animation = ''
+      })
+    })
+
+    // Reset keyboard
+    const keys = keyboard.querySelectorAll('.key')
+    keys.forEach((key) => {
+      key.className = 'key'
+    })
+  }
+
+  // Board navigation
   function incrementCol() {
     if (gameState.currentCol < 5) {
       gameState.currentCol++
@@ -216,6 +302,7 @@ import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
     return Array.from(rows).find((row) => row.dataset.row === gameState.currentRow.toString())
   }
 
+  // Word input handling
   function writeLetter(letter) {
     if (gameState.word.length === 5) return
 
@@ -236,6 +323,7 @@ import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
     gameState.currentLetter = ''
   }
 
+  // Animation and visual feedback
   async function flipCells(cells) {
     const promises = Array.from(cells).map((cell, index) => {
       return new Promise((resolve) => {
@@ -267,8 +355,10 @@ import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
       cell.classList.add(result[index].status)
     })
 
+    gameState.animating = true
     await flipCells(cells)
 
+    // Update keyboard colors
     const keyboardKeys = keyboard.querySelectorAll('.key')
     keyboardKeys.forEach((key) => {
       const status = result.find(({ letter }) => letter === key.dataset.key)?.status
@@ -277,40 +367,61 @@ import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
         key.classList.add(status)
       }
     })
+
+    gameState.animating = false
   }
 
+  // Game flow control
   function moveToNextRow() {
     gameState.guesses.push(gameState.word)
     gameState.word = ''
     gameState.currentCol = 0
     gameState.currentLetter = ''
     gameState.currentRow++
-
-    if (gameState.currentRow > 6) {
-      console.log('Game over')
-    }
   }
 
   function showError() {
-    errorMessage.style.display = 'block'
-    setTimeout(() => {
-      errorMessage.style.display = 'none'
-    }, 3000)
+    togglePopover('error-message')
   }
 
-  function handleKeyPress(letter) {
+  function showGameOverDialog(isWin) {
+    const dialog = document.getElementById('game-over-dialog')
+    const title = document.getElementById('dialog-title')
+    const message = document.getElementById('dialog-message')
+    console.log('runninng show modal')
+    if (isWin) {
+      title.textContent = 'Yassss queen! 🎉'
+      message.textContent = `You found the word "${gameState.targetWord}" in ${gameState.currentRow} tries!`
+    } else {
+      title.textContent = 'Game Over! 😢'
+      message.textContent = `The word was "${gameState.targetWord}". Better luck next time!`
+    }
+
+    gameState.gameOver = true
+    dialog.showModal()
+  }
+
+  // Input handling
+  async function handleKeyPress(letter) {
+    if (gameState.animating || gameState.gameOver) return
+
     switch (letter) {
       case 'Backspace':
         deleteLetter()
         break
       case 'Enter':
-        console.log(gameState.word)
         if (gameState.word.length === 5) {
           const isValid = guessableWords.includes(gameState.word.toLowerCase())
           if (isValid) {
-            addGuess()
-            moveToNextRow()
+            await addGuess()
             console.log(gameState)
+            if (gameState.word === gameState.targetWord) {
+              showGameOverDialog(true)
+            } else if (gameState.currentRow >= 6) {
+              showGameOverDialog(false)
+            }
+
+            moveToNextRow()
           } else {
             showError()
           }
@@ -324,7 +435,23 @@ import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
     }
   }
 
+  // UI utilities
+  function togglePopover(id) {
+    const popover = document.getElementById(id)
+    if (popover) {
+      popover.showPopover()
+    }
+    setTimeout(() => {
+      popover.hidePopover()
+    }, 3000)
+  }
+
   // Event listeners
+  playAgainButton.addEventListener('click', () => {
+    resetGame()
+    document.getElementById('game-over-dialog').close()
+  })
+
   keyboard.addEventListener('click', (e) => {
     if (!e.target.matches('.key')) return
     const letter = e.target.dataset.key
@@ -334,7 +461,6 @@ import validGuesses from '@/data/wordle/valid-guesses.txt?raw'
   window.addEventListener('keydown', async (e) => {
     if (e.repeat) return
     if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return
-    console.log(e)
     handleKeyPress(e.key)
   })
 </script>
