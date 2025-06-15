@@ -1,0 +1,39 @@
+---
+const { message, triggerId = 'pop-1' } = Astro.props
+---
+
+<div popover id={triggerId}>
+  <p>{message}</p>
+</div>
+
+<style>
+  @keyframes slideIn {
+    from {
+      transform: translateY(-100px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  [popover] {
+    margin-inline: auto;
+    margin-block-start: var(--space-sm);
+    border-radius: var(--space-xs);
+    border: 1px solid var(--color-border);
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 6px -2px rgb(0 0 0 / 0.1);
+
+    &:popover-open {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      padding: var(--space-md);
+      max-width: 30ch;
+      font-size: var(--font-size-sm);
+      text-align: center;
+      animation: slideIn 0.3s ease-out;
+    }
+  }
+</style>
