@@ -87,7 +87,14 @@ import BasePopover from '@/components/BasePopover.astro'
     <button class="key" data-key="b" aria-label="Press B key">B</button>
     <button class="key" data-key="n" aria-label="Press N key">N</button>
     <button class="key" data-key="m" aria-label="Press M key">M</button>
-    <button class="key" data-key="Backspace" aria-label="Press Backspace key">⌫</button>
+    <button class="key" data-key="Backspace" aria-label="Press Backspace key">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="backspace-icon">
+        <path
+          fill="currentColor"
+          d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"
+        ></path>
+      </svg>
+    </button>
   </div>
 </div>
 
@@ -184,10 +191,21 @@ import BasePopover from '@/components/BasePopover.astro'
   }
 
   .key {
-    font-size: clamp(1.125rem, 0.9083rem + 0.9245vw, 1.5rem);
-    padding-inline: 0.6em;
+    font-size: clamp(1.125rem, 0.7597rem + 1.5584vw, 1.5rem);
+    padding-inline: 0.5em;
+    min-inline-size: 1ch;
     padding-block: 0.9em;
   }
+
+  .key[data-key='Enter'] {
+    font-size: 0.8em;
+  }
+
+  .backspace-icon {
+    width: 20px;
+    height: 20px;
+  }
+
   .key.correct {
     background-color: darkgreen;
   }
@@ -458,8 +476,9 @@ import BasePopover from '@/components/BasePopover.astro'
   })
 
   keyboard.addEventListener('click', (e) => {
-    if (!e.target.matches('.key')) return
-    const letter = e.target.dataset.key
+    const key = e.target.closest('.key')
+    if (!key) return
+    const letter = key.dataset.key
     handleKeyPress(letter)
   })
 
