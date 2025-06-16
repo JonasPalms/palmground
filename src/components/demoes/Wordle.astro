@@ -94,7 +94,7 @@ import BasePopover from '@/components/BasePopover.astro'
 <style>
   #board {
     --gap: 0.5rem;
-    inline-size: min(70vw, 400px);
+    max-inline-size: 400px;
     margin-inline: auto;
     display: flex;
     flex-direction: column;
@@ -183,6 +183,10 @@ import BasePopover from '@/components/BasePopover.astro'
     --color-back: gray;
   }
 
+  .key {
+    padding-inline: 0.65em;
+    padding-block: 0.9em;
+  }
   .key.correct {
     background-color: darkgreen;
   }
