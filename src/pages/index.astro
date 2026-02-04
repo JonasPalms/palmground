@@ -1,11 +1,11 @@
 ---
-import Layout from '@/layouts/BaseLayout.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
 import BaseHeading from '@/components/BaseHeading.astro'
 import ColorShowcase from '@/components/ColorShowcase.astro'
 import { generateBaseUrl } from '@/utils/generateBaseUrl'
 ---
 
-<Layout>
+<BaseLayout>
   <BaseHeading title="Welcome to my playground" />
   <p>This is where i experiment and learn new things about the web.</p>
   <p>
@@ -14,4 +14,4 @@ import { generateBaseUrl } from '@/utils/generateBaseUrl'
   <p>
     Components and styles <a href=`${generateBaseUrl('/showcase')}`>here</a>
   </p>
-</Layout>
+</BaseLayout>
