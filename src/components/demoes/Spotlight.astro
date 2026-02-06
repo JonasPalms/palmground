@@ -1,428 +1,252 @@
+---
+import { Image } from 'astro:assets'
+import clownSrc from '@/assets/images/clown.png'
+import trumpSrc from '@/assets/images/trump.jpg'
+
+const frameAspectRatio = `${trumpSrc.width} / ${trumpSrc.height}`
+---
+
 <div class="spotlight">
-    <header class="page">
-        <div class="page__head">
-            <div class="kicker">CSS experiment</div>
-            <p class="lede">
-                Cursor-following spotlight reveal using <code>mask-image</code> +
-                <code>radial-gradient</code>, with minimal JS only updating CSS
-                variables.
-            </p>
-        </div>
-    </header>
+  <p class="lede">
+    Cursor-following spotlight reveal using <code>mask-image</code> + <code>radial-gradient</code>,
+    with minimal JS only updating CSS variables.
+  </p>
 
-    <section
-        class="demo"
-        id="spotlight-demo"
-        aria-label="Spotlight hover mask demo"
-    >
-        <div class="layers" aria-hidden="true">
-            <div class="layer layer--base">
-                <div class="card">
-                    <div class="card__meta">
-                        <span class="pill">Minimal JS</span>
-                        <span class="pill">CSS mask</span>
-                        <span class="pill">Radial gradient</span>
-                    </div>
-                    <h3>Hover to reveal</h3>
-                    <p>
-                        The spotlight follows your cursor and reveals a “detail
-                        layer” beneath a grid. Adjust size and softness.
-                    </p>
-                    <ul class="list">
-                        <li>Fast, smooth pointer tracking (rAF)</li>
-                        <li>
-                            Separation of concerns: CSS effect, JS variables
-                        </li>
-                        <li>Respects reduced motion</li>
-                    </ul>
-                </div>
-            </div>
+  <section class="demo" id="spotlight-demo" aria-label="Spotlight hover mask demo">
+    <div class="image-stack" style={`aspect-ratio: ${frameAspectRatio};`} aria-hidden="true">
+      <Image class="img img--base" src={trumpSrc} alt="" loading="lazy" />
+      <Image class="img img--detail" src={clownSrc} alt="" loading="lazy" />
+    </div>
 
-            <div class="layer layer--detail">
-                <div class="card card--detail">
-                    <div class="card__meta">
-                        <span class="pill pill--hot">Spotlight</span>
-                        <span class="pill pill--hot">Masking</span>
-                        <span class="pill pill--hot">Explorable</span>
-                    </div>
-                    <h3>Hover to reveal</h3>
-                    <p>
-                        This layer is masked by a <code>radial-gradient</code> spotlight
-                        driven by CSS variables for position and radius.
-                    </p>
-                    <ul class="list">
-                        <li>Increase softness for a more diffuse edge</li>
-                        <li>Make the spotlight huge for a subtle reveal</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="demo-controls">
-            <button
-                id="spotlight-pane-toggle"
-                type="button"
-                aria-label="Toggle spotlight controls"
-                aria-controls="spotlight-pane-wrap"
-                aria-expanded="false"
-            >
-                🔧 Controls
-            </button>
+    <div class="demo-controls">
+      <button
+        id="spotlight-pane-toggle"
+        type="button"
+        aria-label="Toggle spotlight controls"
+        aria-controls="spotlight-pane-wrap"
+        aria-expanded="false"
+      >
+        🔧 Controls
+      </button>
 
-            <div class="pane-wrap" id="spotlight-pane-wrap" data-open="false">
-                <div
-                    class="pane"
-                    id="spotlight-pane"
-                    aria-label="Spotlight controls"
-                >
-                </div>
-            </div>
-        </div>
-    </section>
+      <div class="pane-wrap" id="spotlight-pane-wrap" data-open="false">
+        <div class="pane" id="spotlight-pane" aria-label="Spotlight controls"></div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <style>
-    .spotlight {
-        --line: rgba(255, 255, 255, 0.08);
-        --radius: 18px;
-        color: var(--text-onbrand);
-    }
+  .spotlight {
+    --radius: 18px;
+    color: var(--text-onbrand);
+  }
 
-    .pane {
-        width: min(360px, 100%);
-    }
+  .lede {
+    color: var(--text-onbrand-muted);
+    margin-top: 0;
+  }
 
-    .pane :global(.tp-rotv) {
-        border-radius: 14px;
-        border: 1px solid var(--color-border);
-        background: var(--color-card);
-    }
+  .demo {
+    --spot-x: 50%;
+    --spot-y: 50%;
+    --spot-r: 180px;
+    --spot-soft: 80px;
 
-    .demo {
-        --spot-x: 50%;
-        --spot-y: 50%;
-        --spot-r: 180px;
-        --spot-soft: 80px;
+    position: relative;
+    border-radius: calc(var(--radius) + 8px);
+    overflow: hidden;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+    isolation: isolate;
+  }
 
-        position: relative;
-        border-radius: calc(var(--radius) + 8px);
-        border: none;
-        background:
-            linear-gradient(0deg, rgba(7, 10, 18, 0.92), rgba(7, 10, 18, 0.92)),
-            radial-gradient(
-                1200px 650px at 50% 0%,
-                rgba(182, 166, 255, 0.1),
-                transparent 60%
-            );
-        overflow: hidden;
-        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
-        min-height: 440px;
-        isolation: isolate;
-    }
+  .image-stack {
+    position: relative;
+    width: 100%;
+  }
 
-    .demo-controls {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        z-index: 5;
-        display: grid;
-        justify-items: end;
-        gap: 10px;
-    }
+  .img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+  }
 
-    .demo-controls button {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        white-space: nowrap;
-    }
+  .img--detail {
+    transition: -webkit-mask-image 0.15s ease, mask-image 0.15s ease;
+  }
 
-    .pane-wrap {
-        display: none;
-    }
+  .demo[data-active='true'] .img--detail {
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    --edge: clamp(0px, calc(var(--spot-r) - var(--spot-soft)), var(--spot-r));
+    -webkit-mask-image: radial-gradient(
+      circle var(--spot-r) at var(--spot-x) var(--spot-y),
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) var(--edge),
+      rgba(0, 0, 0, 1) var(--spot-r)
+    );
+    mask-image: radial-gradient(
+      circle var(--spot-r) at var(--spot-x) var(--spot-y),
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) var(--edge),
+      rgba(0, 0, 0, 1) var(--spot-r)
+    );
+  }
 
-    .pane-wrap[data-open="true"] {
-        display: block;
-    }
+  .demo[data-active='false'] .img--detail {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
 
-    .demo::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image:
-            linear-gradient(var(--line) 1px, transparent 1px),
-            linear-gradient(90deg, var(--line) 1px, transparent 1px);
-        background-size: 48px 48px;
-        background-position: -2px -2px;
-        opacity: 0.4;
-        pointer-events: none;
-        z-index: 2;
-    }
+  .demo-controls {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 5;
+    display: grid;
+    justify-items: end;
+    gap: 10px;
+  }
 
-    .demo::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-            radial-gradient(
-                110% 140% at 50% 0%,
-                rgba(255, 255, 255, 0.06) 0%,
-                transparent 55%
-            ),
-            rgba(0, 0, 0, 0.42);
-        pointer-events: none;
-        z-index: 0;
-    }
+  .demo-controls button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
 
-    .layers {
-        position: relative;
-        height: 100%;
-        min-height: inherit;
-        z-index: 1;
-    }
+  .pane-wrap {
+    display: none;
+  }
 
-    .layer {
-        position: absolute;
-        inset: 0;
-        display: grid;
-        place-items: center;
-        padding: 46px 28px;
-    }
+  .pane-wrap[data-open='true'] {
+    display: block;
+  }
 
-    .card {
-        width: min(720px, 100%);
-        border-radius: var(--radius);
-        border: 1px solid var(--color-border);
-        background: var(--color-card);
-        padding: 26px 26px 22px;
-    }
+  .pane {
+    width: min(360px, 100%);
+  }
 
-    .card__meta {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-bottom: 12px;
-    }
+  .pane :global(.tp-rotv) {
+    border-radius: 14px;
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+  }
 
-    .pill {
-        font-size: 12px;
-        color: var(--text-onbrand-muted);
-        padding: 6px 10px;
-        border-radius: 999px;
-        border: 1px solid var(--color-border);
-        background: transparent;
+  @media (prefers-reduced-motion: reduce) {
+    .img--detail {
+      transition: none;
     }
-
-    .pill--hot {
-        color: var(--text-button-primary);
-        border-color: var(--color-accent);
-        background: var(--color-accent);
-    }
-
-    .card h3 {
-        margin: 0 0 8px;
-        font-size: 28px;
-        line-height: 1.12;
-    }
-
-    .card p {
-        margin: 0 0 14px;
-        color: var(--text-onbrand-muted);
-    }
-
-    .list {
-        margin: 0;
-        padding: 0 0 0 18px;
-        color: var(--text-onbrand-muted);
-    }
-
-    .layer--base .card {
-        filter: saturate(0.55) contrast(0.98);
-    }
-
-    :global([data-theme="dark"]) .spotlight .layer--base .card {
-        background: hsla(var(--grey-blue-hsl), 0.35);
-    }
-
-    :global([data-theme="light"]) .spotlight .layer--base .card {
-        background: hsla(var(--silver-hsl), 0.55);
-    }
-
-    .demo[data-active="true"] .layer--base {
-        --edge: clamp(
-            0px,
-            calc(var(--spot-r) - var(--spot-soft)),
-            var(--spot-r)
-        );
-        -webkit-mask-repeat: no-repeat;
-        mask-repeat: no-repeat;
-        -webkit-mask-image: radial-gradient(
-            circle var(--spot-r) at var(--spot-x) var(--spot-y),
-            rgba(0, 0, 0, 0) 0px,
-            rgba(0, 0, 0, 0) var(--edge),
-            rgba(0, 0, 0, 1) var(--spot-r)
-        );
-        mask-image: radial-gradient(
-            circle var(--spot-r) at var(--spot-x) var(--spot-y),
-            rgba(0, 0, 0, 0) 0px,
-            rgba(0, 0, 0, 0) var(--edge),
-            rgba(0, 0, 0, 1) var(--spot-r)
-        );
-    }
-
-    .layer--detail .card--detail {
-        background:
-            radial-gradient(
-                800px 420px at 10% 10%,
-                rgba(182, 166, 255, 0.22),
-                transparent 60%
-            ),
-            radial-gradient(
-                820px 500px at 95% 40%,
-                rgba(255, 162, 243, 0.22),
-                transparent 55%
-            ),
-            rgba(8, 10, 20, 0.65);
-        border-color: rgba(255, 255, 255, 0.18);
-    }
-
-    .layer--detail {
-        --edge: clamp(
-            0px,
-            calc(var(--spot-r) - var(--spot-soft)),
-            var(--spot-r)
-        );
-        pointer-events: none;
-        opacity: 1;
-        transition: opacity 150ms ease;
-        -webkit-mask-repeat: no-repeat;
-        mask-repeat: no-repeat;
-        -webkit-mask-image: radial-gradient(
-            circle var(--spot-r) at var(--spot-x) var(--spot-y),
-            rgba(0, 0, 0, 1) 0px,
-            rgba(0, 0, 0, 1) var(--edge),
-            rgba(0, 0, 0, 0) var(--spot-r)
-        );
-        mask-image: radial-gradient(
-            circle var(--spot-r) at var(--spot-x) var(--spot-y),
-            rgba(0, 0, 0, 1) 0px,
-            rgba(0, 0, 0, 1) var(--edge),
-            rgba(0, 0, 0, 0) var(--spot-r)
-        );
-    }
-
-    .demo[data-active="false"] .layer--detail {
-        opacity: 0;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .layer--detail {
-            transition: none;
-        }
-    }
+  }
 </style>
 
 <script>
-    import { Pane } from "tweakpane";
+  import { Pane } from 'tweakpane'
 
-    const demo = document.getElementById("spotlight-demo");
-    const toggleButton = document.getElementById("spotlight-pane-toggle");
-    const paneWrap = document.getElementById("spotlight-pane-wrap");
-    const paneContainer = document.getElementById("spotlight-pane");
+  const demo = document.getElementById('spotlight-demo')
+  const toggleButton = document.getElementById('spotlight-pane-toggle')
+  const paneWrap = document.getElementById('spotlight-pane-wrap')
+  const paneContainer = document.getElementById('spotlight-pane')
 
-    if (
-        !(demo instanceof HTMLElement) ||
-        !(toggleButton instanceof HTMLButtonElement) ||
-        !(paneWrap instanceof HTMLElement) ||
-        !(paneContainer instanceof HTMLElement)
-    ) {
-        throw new Error("Missing required elements for spotlight demo");
-    }
+  if (
+    !(demo instanceof HTMLElement) ||
+    !(toggleButton instanceof HTMLButtonElement) ||
+    !(paneWrap instanceof HTMLElement) ||
+    !(paneContainer instanceof HTMLElement)
+  ) {
+    throw new Error('Missing required elements for spotlight demo')
+  }
 
-    const params = {
-        size: 180,
-        softness: 80,
-    };
+  const params = {
+    size: 180,
+    softness: 80,
+  }
 
-    const pane = new Pane({
-        container: paneContainer,
-        title: "Spotlight",
-    });
-    pane.addBinding(params, "size", {
-        min: 80,
-        max: 380,
-        step: 1,
-    });
-    pane.addBinding(params, "softness", {
-        min: 0,
-        max: 220,
-        step: 1,
-    });
+  const pane = new Pane({
+    container: paneContainer,
+    title: 'Spotlight',
+  })
+  pane.addBinding(params, 'size', {
+    min: 80,
+    max: 380,
+    step: 1,
+  })
+  pane.addBinding(params, 'softness', {
+    min: 0,
+    max: 220,
+    step: 1,
+  })
 
-    function setPaneOpen(nextOpen: boolean) {
-        paneWrap.dataset.open = nextOpen ? "true" : "false";
-        toggleButton.setAttribute("aria-expanded", nextOpen ? "true" : "false");
-    }
+  function setPaneOpen(nextOpen: boolean) {
+    paneWrap.dataset.open = nextOpen ? 'true' : 'false'
+    toggleButton.setAttribute('aria-expanded', nextOpen ? 'true' : 'false')
+  }
 
-    toggleButton.addEventListener("click", () => {
-        setPaneOpen(paneWrap.dataset.open !== "true");
-    });
+  toggleButton.addEventListener('click', () => {
+    setPaneOpen(paneWrap.dataset.open !== 'true')
+  })
 
-    document.addEventListener("keydown", (event) => {
-        if (event.key !== "Escape") return;
-        setPaneOpen(false);
-    });
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return
+    setPaneOpen(false)
+  })
 
-    const state = {
-        raf: 0,
-        x: 0,
-        y: 0,
-        hasPointer: false,
-    };
+  const state = {
+    raf: 0,
+    x: 0,
+    y: 0,
+    hasPointer: false,
+  }
 
-    function px(n) {
-        return `${Math.round(n)}px`;
-    }
+  function px(n: number) {
+    return `${Math.round(n)}px`
+  }
 
-    function setVars() {
-        demo.style.setProperty("--spot-r", px(params.size));
-        demo.style.setProperty("--spot-soft", px(params.softness));
-    }
+  function setVars() {
+    demo.style.setProperty('--spot-r', px(params.size))
+    demo.style.setProperty('--spot-soft', px(params.softness))
+  }
 
-    function updatePointerVars() {
-        state.raf = 0;
-        if (!state.hasPointer) return;
-        demo.style.setProperty("--spot-x", px(state.x));
-        demo.style.setProperty("--spot-y", px(state.y));
-    }
+  function updatePointerVars() {
+    state.raf = 0
+    if (!state.hasPointer) return
+    demo.style.setProperty('--spot-x', px(state.x))
+    demo.style.setProperty('--spot-y', px(state.y))
+  }
 
-    function queueUpdate() {
-        if (state.raf) return;
-        state.raf = requestAnimationFrame(updatePointerVars);
-    }
+  function queueUpdate() {
+    if (state.raf) return
+    state.raf = requestAnimationFrame(updatePointerVars)
+  }
 
-    function setFromEvent(event) {
-        const rect = demo.getBoundingClientRect();
-        state.hasPointer = true;
-        demo.dataset.active = "true";
-        state.x = event.clientX - rect.left;
-        state.y = event.clientY - rect.top;
-        queueUpdate();
-    }
+  function setFromEvent(event: PointerEvent) {
+    const rect = demo.getBoundingClientRect()
+    state.hasPointer = true
+    demo.dataset.active = 'true'
+    state.x = event.clientX - rect.left
+    state.y = event.clientY - rect.top
+    queueUpdate()
+  }
 
-    demo.addEventListener("pointerenter", (event) => setFromEvent(event));
-    demo.addEventListener("pointermove", (event) => setFromEvent(event), {
-        passive: true,
-    });
-    demo.addEventListener("pointerdown", (event) => setFromEvent(event));
-    demo.addEventListener("pointerleave", () => {
-        state.hasPointer = false;
-        demo.dataset.active = "false";
-        if (state.raf) cancelAnimationFrame(state.raf);
-        state.raf = 0;
-    });
+  demo.addEventListener('pointerenter', (event) => setFromEvent(event))
+  demo.addEventListener('pointermove', (event) => setFromEvent(event), {
+    passive: true,
+  })
+  demo.addEventListener('pointerdown', (event) => setFromEvent(event))
+  demo.addEventListener('pointerleave', () => {
+    state.hasPointer = false
+    demo.dataset.active = 'false'
+    if (state.raf) cancelAnimationFrame(state.raf)
+    state.raf = 0
+  })
 
-    pane.on("change", () => setVars());
+  pane.on('change', () => setVars())
 
-    setVars();
-    demo.dataset.active = "false";
+  setVars()
+  demo.dataset.active = 'false'
 </script>
