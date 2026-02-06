@@ -6,6 +6,13 @@ function getDemoComponent(path) {
 
 export const demos = [
   {
+    route: 'spotlight',
+    title: 'Spotlight Hover Mask',
+    heading: 'Spotlight Hover Mask',
+    technologies: ['css', 'javascript'],
+    component: getDemoComponent('Spotlight'),
+  },
+  {
     route: 'crypto',
     title: 'Web Crypto API',
     heading: 'Web Crypto API',
