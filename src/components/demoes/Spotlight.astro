@@ -3,7 +3,7 @@ import { Image } from 'astro:assets'
 import clownSrc from '@/assets/images/clown.png'
 import trumpSrc from '@/assets/images/trump.jpg'
 
-const frameAspectRatio = `${trumpSrc.width} / ${trumpSrc.height}`
+const frameAspectRatio = `${clownSrc.width} / ${clownSrc.height}`
 ---
 
 <div class="spotlight">
@@ -12,10 +12,15 @@ const frameAspectRatio = `${trumpSrc.width} / ${trumpSrc.height}`
     with minimal JS only updating CSS variables.
   </p>
 
-  <section class="demo" id="spotlight-demo" aria-label="Spotlight hover mask demo">
+  <section
+    class="demo"
+    id="spotlight-demo"
+    data-active="false"
+    aria-label="Spotlight hover mask demo"
+  >
     <div class="image-stack" style={`aspect-ratio: ${frameAspectRatio};`} aria-hidden="true">
-      <Image class="img img--base" src={trumpSrc} alt="" loading="lazy" />
-      <Image class="img img--detail" src={clownSrc} alt="" loading="lazy" />
+      <Image class="img img--base" src={clownSrc} alt="" loading="eager" />
+      <Image class="img img--detail" src={trumpSrc} alt="" loading="lazy" />
     </div>
 
     <div class="demo-controls">
@@ -50,7 +55,7 @@ const frameAspectRatio = `${trumpSrc.width} / ${trumpSrc.height}`
   .demo {
     --spot-x: 50%;
     --spot-y: 50%;
-    --spot-r: 180px;
+    --spot-r: 260px;
     --spot-soft: 80px;
 
     position: relative;
@@ -77,30 +82,47 @@ const frameAspectRatio = `${trumpSrc.width} / ${trumpSrc.height}`
   }
 
   .img--detail {
-    transition: -webkit-mask-image 0.15s ease, mask-image 0.15s ease;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: radial-gradient(
+      circle 0px at 50% 50%,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 1px
+    );
+    mask-image: radial-gradient(
+      circle 0px at 50% 50%,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 1px
+    );
   }
 
   .demo[data-active='true'] .img--detail {
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
     --edge: clamp(0px, calc(var(--spot-r) - var(--spot-soft)), var(--spot-r));
     -webkit-mask-image: radial-gradient(
       circle var(--spot-r) at var(--spot-x) var(--spot-y),
-      rgba(0, 0, 0, 0) 0px,
-      rgba(0, 0, 0, 0) var(--edge),
-      rgba(0, 0, 0, 1) var(--spot-r)
+      rgba(0, 0, 0, 1) 0px,
+      rgba(0, 0, 0, 1) var(--edge),
+      rgba(0, 0, 0, 0) var(--spot-r)
     );
     mask-image: radial-gradient(
       circle var(--spot-r) at var(--spot-x) var(--spot-y),
-      rgba(0, 0, 0, 0) 0px,
-      rgba(0, 0, 0, 0) var(--edge),
-      rgba(0, 0, 0, 1) var(--spot-r)
+      rgba(0, 0, 0, 1) 0px,
+      rgba(0, 0, 0, 1) var(--edge),
+      rgba(0, 0, 0, 0) var(--spot-r)
     );
   }
 
   .demo[data-active='false'] .img--detail {
-    -webkit-mask-image: none;
-    mask-image: none;
+    -webkit-mask-image: radial-gradient(
+      circle 0px at 50% 50%,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 1px
+    );
+    mask-image: radial-gradient(
+      circle 0px at 50% 50%,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 1px
+    );
   }
 
   .demo-controls {
@@ -163,7 +185,7 @@ const frameAspectRatio = `${trumpSrc.width} / ${trumpSrc.height}`
   }
 
   const params = {
-    size: 180,
+    size: 260,
     softness: 80,
   }
 
@@ -173,7 +195,7 @@ const frameAspectRatio = `${trumpSrc.width} / ${trumpSrc.height}`
   })
   pane.addBinding(params, 'size', {
     min: 80,
-    max: 380,
+    max: 520,
     step: 1,
   })
   pane.addBinding(params, 'softness', {
